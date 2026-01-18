@@ -1,4 +1,2 @@
 .env
-
-# for virtual environment
-wocabee
+node_modules

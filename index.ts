@@ -1,0 +1,333 @@
+const { Builder, Browser, By, Key, until } = require('selenium-webdriver');
+require("dotenv").config();
+const axios = require("axios");
+
+let driver: any;
+let slova: {
+    kw_tagged: number;
+    kw_checked: string;
+    kw_confirmed: string;
+    word_id: number;
+    package_id: number;
+    sw_id: number;
+    word: string;
+    translation: string;
+    note: null;
+    picture_id: null;
+    p_filename: null;
+    hits_ok: number;
+    hits_counter: number;
+    def_hits_left: number;
+    hits_left: number;
+    rating: number;
+    additional_hits: number;
+    total_hits_ok: number;
+    total_hits_nok: number;
+    hits_nok: number;
+    total_hits_counter: number;
+    total_rating: number;
+}[]
+let aktualniCviceni: string
+let completed: boolean = false
+
+async function vytvoritOkno() {
+    return await new Builder().forBrowser(Browser.FIREFOX).build();
+}
+
+async function prihlasit(driver: any) {
+    await driver.get('https://wocabee.app/app')
+
+    try {
+        await driver.findElement(By.id('login')).sendKeys(process.env.USERNAME)
+        await driver.findElement(By.id("password")).sendKeys(process.env.PASSWORD, Key.RETURN)
+    } catch (e) {
+        console.log(`${e}, existuje .env?`)
+    }
+    await driver.wait(until.elementLocated(By.className("flag")), 10000).click()
+    await driver.navigate().to("https://wocabee.app/app/student/class/practice/?class_id=123162&package_id=1684519&mode=homework");
+}
+
+async function zjistitCviceni() {
+    let cviceni = [
+        "intro",
+        "problem-words",
+        "choosePicture",
+        "describePicture",
+        "completeWord",
+        "addMissingWord",
+        "translateWord",
+        "chooseWord",
+        "findPair",
+        "pexeso",
+        "oneOutOfMany",
+        "matchPair",
+        "transcribe",
+        "translateFallingWord",
+        "arrangeWords",
+        // "homeworkQuitScreen", //vzdy "padding-top: 100px; display: none;"
+        "msgCompleted",
+        "countdown"
+    ]
+
+    cviceni.forEach(async i => {
+        let a = await driver.findElement(By.id(i)).getAttribute("style")
+        if (a.search("display: none;") == -1) {
+            console.log(`${i}: ${a}`)
+            console.log(`mam ${i}`)
+            aktualniCviceni = i
+        }
+    })
+}
+
+async function sehnatHtml() {
+    let axiosFormatCookies: string = ""
+    let cookies = await driver.manage().getCookies()
+    cookies = cookies.forEach((cookie: any) => {
+        axiosFormatCookies = axiosFormatCookies.concat(`${cookie.name}=${cookie.value}; `)
+    });
+
+    await axios.get("https://wocabee.app/app/student/class/practice/?class_id=123162&package_id=1684519&mode=homework", {
+        headers: {
+            'Cookie': axiosFormatCookies,
+        }
+    }).then((res: any) => {
+        let zacatekPrekladu = res.data.replace(/\$|`/g, "").search("var locWords") + 15
+        let konecPrekladu = res.data.replace(/\$|`/g, "").search(`var C_oneAnswerGameNoOfSeconds`)
+        // console.log(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
+        slova = JSON.parse(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
+    })
+}
+
+async function chooseWord(driver: any) {
+    let zadani = await driver.findElement(By.id("ch_word"))
+    zadani = await zadani.getText()
+
+    let nabidka = await driver.findElement(By.id("chooseWords")).getText()
+    nabidka = nabidka.split("\n")
+
+    let poziceOdpovedi: number = 0
+
+    slova.forEach((jsonSlova: any) => {
+        if (jsonSlova.word == zadani) {
+            // console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            poziceOdpovedi = nabidka.indexOf(jsonSlova.translation)
+        } else if (jsonSlova.translation == zadani) {
+            // console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            poziceOdpovedi = nabidka.indexOf(jsonSlova.word)
+        }
+    });
+
+    try {
+        await driver.findElement(By.xpath(`//button[@class='chooseWordAnswer btn btn-lg btn-primary btn-block'][text()="${nabidka[poziceOdpovedi]}"]`)).click() //*[text()="${nabidka[poziceOdpovedi]}"]
+    } catch (e) {
+        console.log(`chooseWord: ${e}`)
+    }
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: chooseWord")
+}
+
+async function transcribe(driver: any) {
+    try {
+        await driver.findElement(By.id("transcribeSkipBtn")).click()
+    } catch (e) {
+        console.log(`transcribe: ${e}`)
+    }
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: transcribe")
+}
+
+async function translateWord(driver: any) {
+    let zadani = await driver.findElement(By.id("q_word"))
+    zadani = await zadani.getText()
+
+    slova.forEach(async (jsonSlova: any) => {
+        if (jsonSlova.word == zadani) {
+            // console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            await driver.findElement(By.id("translateWordAnswer")).sendKeys(jsonSlova.translation)
+            return;
+        } else if (jsonSlova.translation == zadani) {
+            // console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            await driver.findElement(By.id("translateWordAnswer")).sendKeys(jsonSlova.word)
+            return;
+        }
+    });
+
+    try {
+        await driver.findElement(By.id("translateWordSubmitBtn")).click()
+    } catch (e) {
+        console.log(`translateWord: ${e}`)
+    }
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: translateWord")
+}
+
+async function findPair(driver: any) {
+    let nabidka = await driver.findElements(By.xpath("//button[@w_id]"))
+    let wocaId: number[] = []
+
+    nabidka.forEach(async (id: any) => {
+        let kandidat = await id.getAttribute("w_id")
+        wocaId.push(kandidat)
+        wocaId.sort()
+
+        if (wocaId.indexOf(kandidat) !== wocaId.lastIndexOf(kandidat)) {
+            let klikni = await driver.findElements(By.xpath("//button[@w_id]"))
+
+            klikni.forEach(async (klik: any) => {
+                let odpoved = await klik.getAttribute("w_id")
+                if (odpoved === kandidat) {
+                    try {
+                        await klik.click()
+                    } catch (e) {
+                        //konec
+                    }
+                }
+            });
+
+        }
+
+    })
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: findPair")
+}
+
+async function pexeso(driver: any) {
+    let nabidka = await driver.findElements(By.xpath("//div[@w_id]"))
+    let wocaId: { poradi: number; id: any; }[] = []
+    let poradi = 0
+
+    await new Promise<void>((resolve) => {
+        nabidka.forEach(async (id: any) => {
+            let kandidat = await id.getAttribute("w_id")
+            wocaId.push({ "poradi": poradi, "id": kandidat })
+            if (poradi >= 7) {
+                resolve()
+            }
+            poradi++
+        })
+    })
+
+    wocaId.sort((prvni, druhy) => prvni.id - druhy.id)
+    // console.log("serazeno: ", wocaId)
+
+    await driver.findElement(By.xpath("//div[@class='pexesoCardWrapper pexesoWord'][1]/div[@class='pexesoCard  pexesoBack btn btn-info btn-block '][1]/text()[1]")).click()
+
+    // wocaId.forEach(async element => {
+    //     if (element.poradi <= 3) {
+    //         // let horniKliknout = await driver.findElement(By.xpath(`//div[@class='pexesoCardWrapper pexesoWord'][${element.poradi + 1}]/div[@class='pexesoCard  pexesoBack btn btn-info btn-block '][1]/text()[1]`))
+    //         let horniKliknout = await driver.findElements(By.id("pq_words"))
+    //         await horniKliknout.getAttribute("")
+    //         await horniKliknout.click()
+    //         await horniKliknout.click()
+    //         console.log(element.poradi)
+    //     } else {
+    //         let spodniKliknout = await driver.findElement(By.xpath(`//div[@class='pexesoCardWrapper pexesoTranslation'][${element.poradi + 1}]/div[@class='pexesoCard  pexesoBack btn btn-primary btn-block '][1]/text()[1]`))
+    //         await spodniKliknout.click()
+    //         await spodniKliknout.click()
+    //         console.log(element.poradi)
+    //     }
+    // });
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: EXPERIMENTALNI pexeso")
+}
+
+async function oneOutOfMany(driver: any) { // TODO: v LEVEL1 jsou pouze dve moznosti a jedno zadání
+
+    let nabidka = await driver.findElement(By.id("oneOutOfManyWords")).getText()
+    nabidka = nabidka.split("\n")
+    nabidka.splice(3, 1)
+    let zadani = nabidka[2]
+    nabidka.splice(2, 1)
+
+    let poziceOdpovedi: number = 0
+
+    slova.forEach((jsonSlova: any) => {
+        if (jsonSlova.word == zadani) {
+            // console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            poziceOdpovedi = nabidka.indexOf(jsonSlova.translation)
+        } else if (jsonSlova.translation == zadani) {
+            // console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            poziceOdpovedi = nabidka.indexOf(jsonSlova.word)
+        }
+    });
+
+    try {
+        await driver.findElement(By.xpath(`//div[text()="${nabidka[poziceOdpovedi]}"]`)).click()
+    } catch (e) {
+        console.log(`oneOutOfMany: ${e}`)
+    }
+
+    // console.log("nabidka ", nabidka, "zadani", zadani)
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: oneOutOfMany")
+}
+
+async function completeWord(driver: any) {
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: EXPERIMENTALNI completeWord")
+}
+
+async function prebratLeaderboard() {
+    driver = await vytvoritOkno()
+    await prihlasit(driver)
+    await zjistitCviceni()
+    await sehnatHtml()
+
+    while (!completed) {
+        switch (aktualniCviceni) {
+            case "chooseWord":
+                await chooseWord(driver)
+                zjistitCviceni()
+                break;
+
+            case "transcribe":
+                await transcribe(driver)
+                zjistitCviceni()
+                break;
+
+            case "translateWord":
+                await translateWord(driver)
+                zjistitCviceni()
+                break;
+
+            case "findPair":
+                await findPair(driver)
+                zjistitCviceni()
+                break;
+
+            case "pexeso":  // nefunguje
+                await pexeso(driver)
+                zjistitCviceni()
+                break;
+
+            case "oneOutOfMany":
+                await oneOutOfMany(driver)
+                zjistitCviceni()
+                break;
+
+            case "completeWord":  // nefunguje
+                await completeWord(driver)
+                zjistitCviceni()
+                break;
+
+            case "cekat":
+                await driver.sleep(1000)
+                zjistitCviceni()
+                break;
+
+            default:
+                console.log(`neimplementovano: ${aktualniCviceni}`)
+                completed = true
+                break;
+        }
+    }
+}
+
+prebratLeaderboard()
