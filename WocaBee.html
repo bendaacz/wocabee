@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="google" content="notranslate">
+
+    <title>WocaBee</title>
+
+    <link rel="shortcut icon" href="https://wocabee.app/favicon.ico">
+    <link rel="stylesheet" href="WocaBee_files/bootstrap.min.css">
+    <link href="WocaBee_files/css.css" rel="stylesheet">
+    <link href="WocaBee_files/css_002.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="WocaBee_files/slick.css">
+    <link rel="stylesheet" type="text/css" href="WocaBee_files/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="WocaBee_files/wocabee.css">
+    <link href="WocaBee_files/wocabee_dark.css" rel="stylesheet">    <link rel="stylesheet" href="WocaBee_files/all.min.css">
+    <link rel="stylesheet" href="WocaBee_files/package.css">
+
+    <script src="WocaBee_files/jquery-3.2.1.min.js"></script>
+
+    
+    <script src="WocaBee_files/bootstrap.min.js"></script>
+    <script src="WocaBee_files/slick.min.js"></script>
+    <script src="WocaBee_files/jquery.backDetect.min.js"></script>
+    <script src="WocaBee_files/jquery.textfill.js"></script>
+    <script src="WocaBee_files/jquery-ui.min.js"></script>
+    <script src="WocaBee_files/jquery.ui.touch-punch.min.js"></script>
+    <script src="WocaBee_files/responsivevoice.js"></script>
+    <script src="WocaBee_files/readLoud.js"></script>
+
+    <script>
+        var $defLangSysName = "CZ";
+        var $langSysName = "DE";
+        var $teacher_id = 702809;
+        var $user_id = 1000257;
+        var $voiceLang="DE";
+
+        var $ST_charset="#!@&_;:";
+        
+        var $spRows = [{"id":27797484,"package_id":1684519,"current_stage":2,"half_stage_rewarded":1,"is_completed":0,"intro_completed":"2026-01-15 10:41:40","deadline":"2026-01-18 23:59:00","local_wp":0,"local_st":"s3#y8r#49Lf9dLsX8ybeyKyjBGS2mL5kpyHcavTz6dYGN"}];
+
+        var $pathToAudioFolder = '../../../sounds/';
+        var $soundsOn = 1;
+        var $vibrationsOn = 0;
+
+        var $incidentMsg = 'Při opětovném pokusu o podvádění bude tvůj účet zablokován a následně bude systém automaticky kontaktovat vyučujícího.';
+        var $C_missingChar = "_";
+        var $foreignLangSpeechCode = "de-DE";
+        var $responsiveVoiceType = "Deutsch Female";
+        var $responsiveVoiceSpeed = "1.00";
+        var $lang_is_specific = 0;
+        var $def_lang_translation_probability = 60;
+        var $conf_req_def_lang = 0;
+        var $conf_req_punctuation = 0;   // todo CONFIG
+        var $conf_dark_mode = 1;
+        var $animationFadeTime = 875;  //
+        var $sdt = '2026-01-16 19:01:00';
+        var $noOfLocalWords = 10;  //
+        var $currentStage = parseInt(2);
+        var $percentageOfScrambledCharsPerStage = 33;
+        var $noOfPuzzleChars = parseInt(5);
+        var $missingChar = '_';
+        var $defLangCharset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZáéěíóúůýřčďňšťžÁÉÍÓÚÝŮĚŘaeiouaeioubcdfghklm';
+        var $langCharset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZäüöÄÜÖẞaeiouaeioubcdfghklm';
+        var $is_completed = 0;
+        var $levelWocaPoints = 90;
+        var $baseForRewardWocaPoints = parseInt(5);
+        var $currentPackageStage = parseInt(2);
+        var $current_level_def_hits_left = 3;
+        var $conf_def_lang_req_uc = parseInt(0);
+        var $conf_def_lang_req_acc = parseInt(0);
+        var $conf_lang_req_uc = parseInt(1);
+        var $conf_lang_req_acc = parseInt(1);
+        var $conf_typing = parseInt(1);
+        var $conf_auto_speak = parseInt(1);
+        var $level = "easy";
+        var $problemWordsInStage = 3;
+        var $mode = 'homework';
+        var $hasHelperKeyboard = 1;
+        var $check_status_ms = 60000; 
+        var $youHaveBeenLoggedOut = 'Byli jste odhlášen';
+        var $packageName = "Lekce 3A s. 34 ostatní n-z";
+        var $totalWocaPoints = 0;
+        var $defLangSynchars = JSON.parse('[{"code":"{499}","chars":"`,\u0027,\u00b4,\u2019"}]');
+        var $foreignLangSynchars = JSON.parse('[{"code":"{201}","chars":"ss,\u00df,\u03b2"},{"code":"{202}","chars":"\u00f6,oe"},{"code":"{203}","chars":"\u00fc,ue"},{"code":"{204}","chars":"\u00e4,ae"},{"code":"{299}","chars":"`,\u0027,\u00b4,\u2019"}]');
+
+        var $intro_completed = parseInt(1);
+        var $WPhalfPackageReward = 20;
+        var $halfStageRewarded = 0;
+        var $conf_req_virtual_keyboard=1;
+        var $tabDisabledAlert='Toto okno bylo automaticky deaktivováno, protože aplikace byla otevřena v novém. WocaBee lze používat pouze na 1 zařízení a v 1 okně.';
+        var $samp='0';
+        var $server_timestamp = 1768586460565;
+        var $sampSecondsLeft = 0;
+
+        var SAVING_MODAL_DISP_TIME_MS = 3000; // 
+        var TIME_BEFORE_GO_BACK_MS = 2500; // 
+        var SAVE_AGAIN_WAIT_SECONDS = 5; // 
+        var MAX_SAVE_AGAIN_WAIT_SECONDS = 15; //
+        var INCREASE_SAVE_AGAIN_WAIT_SECONDS = 1; //
+
+                var $locWords = [{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942501,"package_id":1684519,"sw_id":325353284,"word":"totiž","translation":"nämlich","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942502,"package_id":1684519,"sw_id":325353302,"word":"samozřejmě","translation":"natürlich","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942503,"package_id":1684519,"sw_id":325353320,"word":"nový","translation":"neu","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942504,"package_id":1684519,"sw_id":325353338,"word":"perština, persky","translation":"Persisch","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942505,"package_id":1684519,"sw_id":325353356,"word":"vidět","translation":"sehen","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942506,"package_id":1684519,"sw_id":325353374,"word":"mrtvý","translation":"tot","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942507,"package_id":1684519,"sw_id":325353392,"word":"typický, klasický","translation":"typisch","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942508,"package_id":1684519,"sw_id":325353410,"word":"náš, naše, naše","translation":"unser, unsere, unser","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942509,"package_id":1684519,"sw_id":325353428,"word":"rozumět si","translation":"verstehen sich","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2},{"kw_tagged":0,"kw_checked":"0","kw_confirmed":"0","word_id":18942510,"package_id":1684519,"sw_id":325353446,"word":"spolu, dohromady","translation":"zusammen","note":null,"picture_id":null,"p_filename":null,"hits_ok":0,"hits_counter":2,"def_hits_left":3,"hits_left":3,"rating":0,"additional_hits":0,"total_hits_ok":2,"total_hits_nok":0,"hits_nok":0,"total_hits_counter":2,"total_rating":2}];
+        
+
+
+        var $C_oneAnswerGameNoOfSeconds=120;
+        var $C_matchPairGameNoOfSeconds=30;
+
+        var $st_init_val='s3#y8r#49Lf9dLsX8ybeyKyjBGS2mL5kpyHcavTz6dYGN';
+        var $aes_val='P1KBLAF57aHNggFYnDVuydPJjREaydsRPRYc14FULFEchkBydCMZSg6Cs91VcTDG51CUV6HVKGrVm2GN4k95UP1gMa86M9326S4RYfx7yC2Ytt5UvDDVdbdX8mvVukEE';
+
+    </script>
+
+
+
+    <script src="WocaBee_files/responsive_voice_handler.js"></script>
+    <script src="WocaBee_files/sounds.js"></script>
+    <script src="WocaBee_files/vibrations.js"></script>
+    <script src="WocaBee_files/animations.js"></script>
+    <script src="WocaBee_files/tt.js"></script>
+
+    
+    <script src="WocaBee_files/pulsate.js"></script>
+    <script src="WocaBee_files/sec.js"></script>
+    <script src="WocaBee_files/practice_local.js"></script>
+    <!--russian keyboard-->
+    <script src="WocaBee_files/kioskboard-aio-2.1.0.min.js"></script>
+    <script src="WocaBee_files/virtual-keyboard.js" defer="defer"></script>
+</head>
+<body class="text-center"><div style="display:flex;justify-content: center;    pointer-events: none;"><img id="animation" style="    pointer-events: none;position:absolute; z-index:1;max-width: 50%;"></div>
+
+
+<div class="container text-center col-lg-6 col-md-8 col-xs-12" style="min-width: 300px;">
+            <div class="form-group">
+            <div class="progress" id="progressWrapper" style="height:20px; font-size: .85rem;">
+                <div class="progress-bar bg-success" id="progressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 4%;">
+                    <span id="progressValue">4%</span>
+                </div>
+            </div>
+        </div>
+        
+            <div id="mainFormWrapper" style="min-height: 500px;" class="form-horizontal ">
+            <div class="form-group" style="display:none;">
+                <input name="word_id" type="text" id="word_id" class="form-control" value="18942505">
+                <input type="text" id="a_word" class="form-control" value="sehen">
+                <input type="text" id="my_a_word" class="form-control" value="unser, unsere, unser">
+                <input name="a_type" type="text" id="a_type" class="form-control" value="translation">
+                <input id="fp_q_w_id" class="form-control" value="0">
+                <input id="fp_a_w_id" class="form-control" value="0">
+            </div>
+            
+            
+
+
+
+
+            
+
+            
+                        <div class="form-group" id="halfStageReached" style="display: none;">
+                <button class="btn btn-lg btn-success btn-block">
+                    50 % je tam! Skvělá práce!<br>
+                    <i class="fas fa-trophy"></i> +20 WocaPoints
+                    <br>
+                    <img src="WocaBee_files/bee-encourage-2.png" style="padding: 10px; max-height:190px;" class="fa-beat" alt="bee-encourage">
+                    <br>
+                    <span style="display: inline-flex; align-items: center">
+                        <i class="fa-solid fa-2x fa-floppy-disk fa-flip mr-3"></i> <b>CHECKPOINT</b>
+                    </span>
+                </button>
+            </div>
+
+            <div class="form-group">
+                <div id="correct" style="display: none;">
+                    <button class="btn btn-lg btn-success btn-block">
+                        <div class="wordQuestion">náš, naše, naše</div>
+                        <i class="fas fa-equals fa-lg"></i>
+                        <div class="myWordAnswer">unser, unsere, unser</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div id="incorrect" style="display:none;">
+                    <button id="incorrect-explanation-block" class="btn btn-lg btn-danger btn-block">
+                        <div class="wordQuestion">náš, naše, naše</div>
+                        <i class="fas fa-not-equal fa-lg"></i>
+                        <div class="myWordAnswer">unser, unsere, unser</div>
+                    </button>
+                    <button class="btn btn-lg btn-primary btn-block">
+                        <div class="correctWordQuestion">náš, naše, naše</div>
+                        <i class="fas fa-equals fa-lg"></i>
+                        <div class="correctWordAnswer">unser, unsere, unser</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group" id="wocaPointsReward" style="display:none;">
+                <button class="btn btn-lg btn-success btn-block">
+                    <span class="wocaPointsRewardValue"></span> po sobě !<br>
+                    <i class="fas fa-trophy"></i> +<span class="wocaPointsRewardValue"></span> extra WocaPoints
+                    <br>
+                                            <img id="bee-encourage-img1" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-1.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img1">
+                                            <img id="bee-encourage-img2" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-2.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img2">
+                                            <img id="bee-encourage-img3" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-3.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img3">
+                                            <img id="bee-encourage-img4" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-4.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img4">
+                                            <img id="bee-encourage-img5" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-5.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img5">
+                                            <img id="bee-encourage-img6" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-6.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img6">
+                                            <img id="bee-encourage-img7" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-7.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img7">
+                                            <img id="bee-encourage-img8" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-8.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img8">
+                                            <img id="bee-encourage-img9" class="bee-encourage-img fa-beat" src="WocaBee_files/bee-encourage-9.png" style="padding: 10px;  max-height:190px; display:none;" alt="bee-encourage-img9">
+                                    </button>
+            </div>
+            <div class="form-group">
+                <img id="resultPicture" class="picture not_clickable" src="" style="display:none;" alt="resultPicture">
+            </div>
+            <div id="intro" style="display:none;">
+                <div id="introLabelWrapper" style="min-height:240px; padding-top:40px;">
+                    <h4 class="methodDesc" id="introLabel" style="margin-bottom:0;">
+                        Počet slovíček v balíčku 'Lekce 3A s. 34 ostatní n-z': <b>{count}</b>                    </h4>
+                    <img src="WocaBee_files/bee-announce.png" style="padding: 5px; height:200px;" alt="bee-announce">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <div id="noSpeechMsg" class="alert alert-danger fade show" role="alert" style="display:none;">
+                            <strong>Upozornění:</strong> Tento prohlížeč nepodporuje přehrávání výslovnosti slovíček (v tomto cizím jazyce).                        </div>
+                    </div>
+                    <div class="form-group autoSpeechConfig" style="padding-top:10px;">
+                        <p class="font-weight-bold" style="margin-top: 5px; margin-bottom: 5px;">Automaticky přečíst:</p>
+                        <label class="switch">
+                            <input type="checkbox" id="soundToggle" checked="checked">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <button id="introRun" class="btn btn-lg btn-primary btn-block">dále                        <i class="fas fa-arrow-right rightIcon"></i>
+                    </button>
+                </div>
+                <div id="introWrapper" style="display:none;">
+                    <p id="introCounter" style="font-weight: bold;">
+                        </p><div class="" style="text-align: right; padding-bottom:5px;">
+                         <div class="btn btn-danger btn-sm" id="reportMistakeBtn"><i class="fa-solid fa-triangle-exclamation"></i> Nahlásit chybu/překlep učiteli</div>
+                        </div>
+                        <div class=""><h4><span id="introIndex"></span> / <span id="introWordCount"></span></h4></div>
+                    <p></p>
+                    <div class="form-group" id="introContainer">
+                       <div id="introWordTranslation">
+                        <button id="introWord" class="btn btn-lg btn-success btn-block"></button>
+                        <button id="introTranslation" class="btn btn-lg btn-info btn-block"></button>
+                        </div>
+                        <br>
+                        <i class="speaker fas fa-volume-up fa-2x" style="visibility: visible;"></i>
+                        <div style="min-height:170px;">
+                            <img id="pictureThumbnail" class="picture p-thumbnail" src="" style="cursor:default;" alt="pictureThumbnail">
+                        </div>
+                    </div>
+                                            <div class="alert alert-warning" style="display:table; width:100%; padding: 0 0 0 0; font-weight:bold;">
+                            <span style="display:table-cell; vertical-align:middle; width:55%; padding: 10px;">
+                                <i class="far fa-lightbulb fa-lg "></i> Znáš už toto slovíčko?                            </span>
+                            <span style="display:table-cell; vertical-align:middle;"> NE </span>
+                            <span style="display:table-cell; vertical-align:middle; padding-top:10px;">
+                                <label class="switch">
+                                    <input type="checkbox" class="toggle" id="kw_checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </span>
+                            <span style="display:table-cell; vertical-align:middle;"> ANO </span>
+                        </div>
+                                        <button id="introNext" class="btn btn-lg btn-primary btn-block">dále                        <i class="fas fa-arrow-right rightIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="problem-words" style="display: none">
+                <h4 class="methodDesc">Dej si pozor na tato slovíčka! 😊</h4>
+                <hr>
+                <p id="problem-words-counter" style="font-weight: bold; display: none;">
+                    <span id="problem-words-index">0</span> / <span id="problem-words-count"></span>
+                </p>
+                <div class="form-group" id="problem-words-container">
+                    <button id="problem-words-word" class="btn btn-lg btn-success btn-block" disabled="disabled"></button>
+                    <button id="problem-words-translation" class="btn btn-lg btn-info btn-block" disabled="disabled"></button>
+                    <br>
+                    <i class="speaker fas fa-volume-up fa-2x" style="visibility: visible;"></i>
+                    <div style="min-height:170px;">
+                        <img id="problem-words-pictureThumbnail" class="picture p-thumbnail" src="" style="cursor:default;" alt="problem-words-pictureThumbnail">
+                    </div>
+                    <h6 style="margin-top:1rem; text-align: center; font-weight: bold">Počet nesprávných odpovědí:                        <span style="color: #dc3545; font-weight: bold;" id="problem-words-error-count"></span>
+                    </h6>
+                </div>
+            </div>
+
+
+
+            <div id="choosePicture" style="display:none;">
+                <div class="form-group">
+                    <button id="choosePictureWord" class="btn btn-lg btn-success btn-block" style="cursor:default;"></button>
+                </div>
+                <i class="speaker fas fa-volume-up fa-2x" style="visibility: visible;"></i>
+
+                <h4 class="methodDesc">Zvol správný obrázek (dvojklikem)</h4>
+                <div id="word-img-container" style="width: 85%; display: inline-block; outline: none;"></div>
+                <div class="form-group" id="choosePictureHint" style="">
+                    <div class="alert alert-info" style="margin: 0 0 0 0;"><b>Tip:</b> posuň do strany</div>
+                </div>
+            </div>
+
+            <div id="describePicture" style="display:none;">
+                <h4 class="methodDesc" style="padding-bottom:0;">Co je na obrázku?</h4>
+                <div id="" style="width: 85%; display: inline-block; outline: none;"></div>
+                <div style="min-height:230px;">
+                    <img id="describePictureImg" class="picture" src="" style="cursor:default; height:225px; margin-bottom: 10px;" alt="describePictureImg">
+                </div>
+                <div class="form-group">
+                    <input name="" placeholder="Německy" type="text" id="describePictureAnswer" class="form-control" autocomplete="off" required="" autocorrect="off" autocapitalize="none" maxlength="40">
+                </div>
+                <div class="form-group">
+                    <button id="describePictureSubmitBtn" class="btn btn-lg btn-primary btn-block submit" disabled="disabled">Zkontrolovat</button>
+                </div>
+            </div>
+
+            <div id="completeWord" style="display:none;">
+                <h4 class="methodDesc"><i class="fa-solid fa-puzzle-piece"></i> Doplň chybějící písmena</h4>
+                <div class="form-group">
+                    <button id="completeWordQuestion" class="btn btn-lg btn-success btn-block questionBtn" style="cursor: default;"></button>
+                    <i class="speaker fas fa-volume-up fa-2x" style="visibility: visible;"></i>
+                </div>
+                <div class="form-group">
+                    <button id="completeWordAnswer" class="btn btn-lg btn-primary btn-block" style="cursor:default;letter-spacing: 0;"></button>
+                </div>
+                <div class="form-group">
+                    <span id="rollbackBtn" class="text-center" is_hidden="1" style="visibility: hidden; line-height:50px; cursor:pointer;">
+                        <i class="fas fa-undo-alt fa-3x text-warning"></i>
+                    </span>
+                </div>
+                <div class="form-group" id="characters"></div>
+                <div class="form-group">
+                    <button id="completeWordSubmitBtn" class="btn btn-lg btn-secondary btn-block" style="display:none;">
+                        Zkontrolovat <i class="fas fa-share fa-lg rightIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="addMissingWord" class="keyboardParent" style="display:none;">
+                <div class="form-group">
+                    <h4 class="methodDesc">Doplň chybějící slovo</h4>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block" id="q_sentence" style="cursor:default;"></button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block" id="a_sentence" style="cursor:default;"></button>
+                </div>
+                <div class="form-group">
+                    <input name="answer" type="text" id="missingWordAnswer" class="form-control" autocomplete="off" required="" autocorrect="off" autocapitalize="none">
+                </div>
+                <div class="form-group helperKeyboard" style="display:none;">
+                    <span class="keyboardChar keyboardShift"><i class="far fa-arrow-alt-circle-up fa-lg"></i></span>
+                    <span class="keyboardChar">ä</span><span class="keyboardChar">ö</span><span class="keyboardChar">ü</span><span class="keyboardChar">ß</span>                </div>
+                <div class="form-group">
+                    <button id="addMissingWordSubmitBtn" class="btn btn-lg btn-secondary btn-block" style="display:none;">Zkontrolovat                        <i class="fas fa-share fa-lg rightIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="translateWord" class="keyboardParent" style="display:none;">
+                <div class="form-group">
+                    <h4 class="methodDesc"><i class="fa-solid fa-arrow-right-arrow-left"></i> Přelož</h4>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block questionBtn" style="cursor: default;">
+                        <span id="q_word">vidět</span><span id="q_note"></span>
+                    </button>
+                    <i class="speaker fas fa-volume-up fa-2x" style="visibility: visible;"></i>
+                </div>
+                <div class="form-group">
+                    <input name="answer" type="text" id="translateWordAnswer" class="form-control" autocomplete="off" required="" autocorrect="off" autocapitalize="none" maxlength="40">
+                </div>
+                <div class="form-group helperKeyboard" style="display:none;">
+                    <span class="keyboardChar keyboardShift"><i class="far fa-arrow-alt-circle-up fa-lg"></i></span>
+                    <span class="keyboardChar">ä</span><span class="keyboardChar">ö</span><span class="keyboardChar">ü</span><span class="keyboardChar">ß</span>                </div>
+                <div class="form-group">
+                    <button id="translateWordSubmitBtn" class="btn btn-lg btn-primary btn-block submit" disabled="disabled">Zkontrolovat</button>
+                </div>
+            </div>
+
+            <div id="chooseWord" style="display: none;">
+                <div class="form-group">
+                    <h4 class="methodDesc"><i class="fa-solid fa-list"></i> Zvol správný překlad</h4>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block questionBtn" id="ch_word" style="cursor: default;">náš, naše, naše</button>
+                    <i class="speaker fas fa-volume-up fa-2x" style="visibility: visible;"></i>
+                </div>
+                <div class="form-group">
+                    <div class="form-group" id="chooseWords"><button class="chooseWordAnswer btn btn-lg btn-primary btn-block">unser, unsere, unser</button><button class="chooseWordAnswer btn btn-lg btn-primary btn-block">typisch</button><button class="chooseWordAnswer btn btn-lg btn-primary btn-block">nämlich</button></div>
+                </div>
+            </div>
+
+            <div id="findPair" style="display:none;">
+                <div class="form-group">
+                    <h4 class="methodDesc"><i class="fa-solid fa-list-ol"></i> Označ správný pár</h4>
+                </div>
+                <div class="form-group" id="q_words"></div>
+                <div class="form-group" id="a_words"></div>
+            </div>
+
+            <div id="pexeso" style="display:none;">
+                <div class="form-group">
+                    <h5 class="methodDesc"><i class="fa-solid fa-clipboard-list"></i> Najdi všechny dvojice.<br><small>Klikni 1x pro otočení a 2x pro označení.</small></h5>
+                </div>
+                <div class="form-group" id="pq_words" style="margin-bottom: 30px;"></div>
+                <div class="form-group" id="pa_words"></div>
+            </div>
+
+            <div id="oneOutOfMany" style="">
+                <h4 class="methodDesc"><i class="fa-solid fa-list"></i> Zvol správný překlad</h4>
+                <div class="form-group" id="oneOutOfManyWords" style="min-height:360px;margin-bottom: 30px; display:grid;align-content: space-evenly;"><div class="oneOutOfManyWord btn btn-primary btn-block" style="">sehen</div><div class="oneOutOfManyWord btn btn-primary btn-block" style="">natürlich</div><div id="oneOutOfManyQuestionWord" class="btn btn-success btn-block" style="cursor: auto; font-weight: bold;"><i class="pexesoSelected fa-solid fa-chevron-right  leftIcon"></i>vidět<i class="pexesoSelected fa-solid fa-chevron-left  rightIcon"></i><br></div><div class="oneOutOfManyWord btn btn-primary btn-block" style="">tot</div><div class="oneOutOfManyWord btn btn-primary btn-block" style="">nämlich</div></div>
+            </div>
+
+            <div id="matchPair" style="display:none;">
+                <h4 class="methodDesc"><i class="fa-solid fa-language"></i> BAG_Označ správne dvojice:</h4>
+                <div class="form-group" id="matchPairWords" style="min-height:360px;margin-bottom: 30px; display:grid;align-content: space-evenly;"></div>
+            </div>
+
+            <div id="transcribe" class="keyboardParent" style="display:none;">
+                <div class="form-group">
+                    <h4 class="methodDesc"><i class="fa-solid fa-ear-listen"></i> Vyslechni a napiš</h4>
+                    <h5>(Německy)</h5>
+                    <i class="speaker fas fa-volume-up fa-3x" style="visibility: visible;"></i>
+                </div>
+                <div class="form-group">
+                    <input name="answer" type="text" id="transcribeAnswerWord" class="form-control" autocomplete="off" required="" autocorrect="off" autocapitalize="none" maxlength="40">
+                </div>
+                <div class="form-group helperKeyboard" style="display:none;">
+                    <span class="keyboardChar keyboardShift"> <i class="far fa-arrow-alt-circle-up fa-lg"></i></span>
+                    <span class="keyboardChar">ä</span><span class="keyboardChar">ö</span><span class="keyboardChar">ü</span><span class="keyboardChar">ß</span>                </div>
+
+                <div class="form-group">
+                    <button id="transcribeSubmitBtn" class="btn btn-lg btn-primary btn-block submit" disabled="disabled">Zkontrolovat</button>
+                </div>
+                <div class="form-group">
+                    <button id="transcribeSkipBtn" class="btn btn-lg btn-info btn-block">Přeskočit</button>
+                </div>
+            </div>
+
+            <div id="translateFallingWord" class="keyboardParent" style="display:none;">
+                <div id="fallingWrapper" style=" height:400px;">
+                    <div id="fallingWordWrapper" style="height:290px;">
+                        <h4 class="methodDesc"><i class="fa-solid fa-arrow-right-arrow-left"></i> Přelož <span id="tfw_countdown"></span></h4>
+                        <button class="btn btn-success btn-lg btn-block" id="tfw_word" style="cursor:default;"></button>
+                    </div>
+                    <div class="form-group">
+                        <input name="answer" type="text" id="translateFallingWordAnswer" class="form-control" autocomplete="off" required="" autocorrect="off" autocapitalize="none" maxlength="40">
+                    </div>
+                    <div class="form-group helperKeyboard" style="display:none;">
+                        <div class="form-group helperKeyboard" style="display:none;">
+                            <span class="keyboardChar keyboardShift">
+                                <i class="far fa-arrow-alt-circle-up fa-lg"></i>
+                            </span>
+                            <span class="keyboardChar">ä</span><span class="keyboardChar">ö</span><span class="keyboardChar">ü</span><span class="keyboardChar">ß</span>                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button id="translateFallingWordSubmitBtn" class="btn btn-lg btn-primary btn-block submit" disabled="disabled">Zkontrolovat</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="arrangeWords" style="display: none">
+                <div class="form-group">
+                    <h4 class="methodDesc">Uspořádej slova</h4>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block" id="def-lang-sentence" style="cursor:default;"></button>
+                </div>
+                <div id="sortableWords" class="ui-sortable"></div>
+                <div class="form-group">
+                    <button id="arrangeWordsSubmitBtn" class="btn btn-lg btn-secondary btn-block">Zkontrolovat                        <i class="fas fa-share fa-lg rightIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="homeworkQuitScreen" style="padding-top:100px; display:none; ">
+                <div class="form-group">
+                    <div class="alert alert-danger" style="font-size: 1.15em;">
+                        Opravdu chceš odejít?
+ <br>
+                        <span id="beforeHalf">
+                            Ztratíš <b><span id="currentPercentageQuitScreen">4</span> %</b> 😏
+                        </span>
+                        <span id="afterHalf">
+                            Při dalším spuštění budeš pokračovat od <b><span id="afterHalfPercentageQuitScreen"></span> %</b>                        </span>
+
+                    </div>
+                    <div class="form-group" style="margin-top:75px;">
+                        <div id="doNotLeaveHomeworkBtn" class="btn btn-lg btn-success btn-block">
+                            <i class="fas fa-play fa-lg leftIcon"></i> Pokračovat                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:75px;">
+                        <button type="button" id="leaveHomeworkBtn" class="btn btn-lg btn-warning btn-block">
+                            <i class="fas fa-share-square leftIcon fa-rotate-180 fa-lg" style="margin-top:5px;"></i>
+                            <i class="fas fa-cloud-arrow-up rightIcon fa-lg fa-bounce savingIcon" style="margin-top:5px; display:none;"></i>
+                            Odejít                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group" id="msgCompleted" style="display:none;">
+                <div class="form-group">
+                <div class="btn btn-success btn-block" style="font-size: 1.2em;">
+                    <span><b> + 90 <span style="color: #fba828;">Woca</span>Points</b></span>
+                    <br>
+                    <img src="WocaBee_files/bee-encourage-7.png" style="display:none;padding: 10px; max-height:190px;" class="fa-beat" alt="bee-encourage">
+                    <br>
+                    <i class="fas fa-check"></i>
+                                            <span>Úloha 2 / 3 splněna.</span>
+                                        <i class="fas fa-check"></i>
+                </div>
+                </div>
+                            </div>
+            <div id="countdown" style="display:none;">
+                (<span id="countdown">10</span>)
+            </div>
+        </div>
+        <div class="form-group" id="noConnectionMsg" style="display:none;">
+        <div class="alert alert-danger" style="margin: 45px 0 45px 0;"><b>WocaBee</b> potřebuje připojení na internet            <i class="fas fa-wifi"></i>
+        </div>
+    </div>
+                <hr>
+        <div class="btn btn-lg btn-warning btn-block" id="backBtn" style="margin-top: 15px;">Zpět</div>
+        <div id="saveAndLeaveBtn" style="display:none;">
+            <i class="fas fa-share-square leftIcon fa-rotate-180 fa-lg" style="margin-top:5px;"></i>
+            <b>Uložit a odejít</b>
+            <i class="fas fa-save fa-lg rightIcon"></i>
+        </div>
+        <button id="continueBtn" type="button" class="btn btn-lg btn-success btn-block" style="display:none;">Pokračovat</button>
+        <button id="problem-words-next" style="display: none" disabled="disabled" class="btn btn-lg btn-primary btn-block">dále            <i class="fas fa-arrow-right rightIcon"></i>
+        </button>
+    
+    <a href="https://wocabee.app/app/student/class/?class_id=123162" id="leaveBtnWrapper" style="display:none">
+    <div id="leaveBtn" class="form-group btn btn-lg btn-warning btn-block">
+    <i class="fas fa-share-square leftIcon fa-rotate-180 fa-lg" style="margin-top:5px;"></i>
+    <b>Zpět</b>
+    </div>
+    </a>
+
+    <div id="incorrect-next-button-wrapper" class="form-group" style="display: none;">
+        <button id="incorrect-next-button" class="btn btn-lg btn-info btn-block">
+            dále        </button>
+    </div>
+    <br><br>
+</div>
+<div id="rtk" rtkval="LzkpP3Xv2fE64VRJmn1GRPrbAsyfs8gr" fl="5" style="display:none;"></div>
+
+<div id="spRows">
+                        <div class="spRow" sp_id="27797484" package_id="1684519" is_completed="0" intro_completed="1" local_wp="0" local_st="s3#y8r#49Lf9dLsX8ybeyKyjBGS2mL5kpyHcavTz6dYGN" local_mwp="0" half_stage_rewarded="1">
+            </div>
+            </div>
+
+
+
+
+<div id="pictures" style="display:none;">
+    </div>
+
+
+<div class="modal fade" id="report-mistake-modal" tabindex="-1" aria-labelledby="report-mistake-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="delete-homophone-modal-label">Nahlásit chybu/překlep učiteli</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="reportMistakeBody">
+                            <div id="introWordTranslationCopy" style="margin-bottom:10px">
+                            </div>
+                            <form id="reportMistakeForm">
+                            <div class="form-group row">
+                                <div class="col-12">
+                                <textarea id="reportText" name="reportText" cols="40" minlength="6" maxlength="128" rows="3" placeholder="Sem napiš více informací." aria-describedby="reportTextHelpBlock" required="required" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                        <div id="reportMistakeSuccess" style="display:none;">
+                              <div class="alert alert-success">Formulář byl úspěšně odeslán</div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Zavřít                        </button>
+                        <button id="reportMistakeSubmitBtn" type="submit" form="reportMistakeForm" class="btn btn-outline-success">Odeslat                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <span id="THL" val="0">
+        </span></div>
+
+<div class="modal fade" id="modalSavingPackage" tabindex="-1" role="dialog" aria-labelledby="modalSavingPackageTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSavingPackageTitle"></h5>
+            </div>
+<div class="modal-body">
+
+    <div class="fa-beat mb-3" style="font-size:1.4em; fa--animation-duration: 1.8s;--fa-beat-scale: 1.1;">
+        Výborně!</div>
+    <div class="row d-flex justify-content-center mt-2 mb-3">
+         
+        <div class="col-auto text-center mx-3">
+             <i id="savingModalSaveIcon" class=" fas fa-save fa-3x "></i>
+        </div>
+        
+        <div class="col-auto text-center mx-3">
+            <i id="savingModalSecondaryIcon" class="fa fa-spinner fa-3x "></i>
+        </div>
+    </div>
+    
+            <div class="alert alert-danger" id="savingModalTryAgainAlert" style="display:none;">
+             Uložení se nezdařilo. Zkus prosím znovu kliknutím na tlačítko níže.            </div>
+</div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-success" id="saveAgainBtn" style="display:none">
+                                <i class="fas fa-save fa-lg leftIcon"></i>
+Zkusit znovu <span id="tryAgainCountdownWrapper" style="display:none">(<span id="tryAgainCountdownSeconds"></span>)</span>
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body></html>
