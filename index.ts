@@ -318,6 +318,60 @@ async function completeWord(driver: any) { // TODO: obcas nefunguje
     console.log("kliknuto: completeWord")
 }
 
+async function choosePicture(driver: any) {
+    let zadani = await driver.findElement(By.id("choosePictureWord")).getText()
+    let m1 = await driver.findElement(By.xpath("//div[@id='slick-slide00'][1]/img[@class='picture'][1]")).getAttribute("word_id")
+    let m2 = await driver.findElement(By.xpath("//div[@id='slick-slide01'][1]/img[@class='picture'][1]")).getAttribute("word_id")
+    let m3 = await driver.findElement(By.xpath("//div[@id='slick-slide02'][1]/img[@class='picture'][1]")).getAttribute("word_id")
+    let moznosti = [m1, m2, m3]
+
+    let odpoved = najitOdpovedKZadani(zadani, [])
+    console.log(odpoved)
+
+    let poradiObrazku = -1
+
+    moznosti.forEach(async moznost => {
+        poradiObrazku++
+
+        if (moznost != 0) {
+
+            for (let i in slova) {
+                if (slova[i]!.word_id == moznost && slova[i]!.word == odpoved) {
+                    console.log("match:", moznost, slova[i]!.word)
+                    console.log("index", poradiObrazku)
+                    try {
+                        console.log("klikam s poradiObrazku", poradiObrazku)
+                        await driver.findElement(By.xpath(`//img[@class='picture' and @word_id='${moznost}']`)).click()
+                        await driver.findElement(By.xpath(`//img[@class='picture' and @word_id='${moznost}']`)).click()
+                        // await driver.findElement(By.xpath(`//div[@id='slick-slide0${poradiObrazku + 1}'][1]/img[@class='picture'][1]`)).click()
+                    } catch (e) {
+                        console.log("choosePicture:", e)
+                    }
+                    return;
+                }
+            }
+
+        }
+    });
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: choosePicture")
+}
+
+async function describePicture(driver: any) { // trefit slovo s indexem 0 TODO: opravit třeba někdy
+    try {
+        await driver.findElement(By.id("describePictureAnswer")).sendKeys(slova[0]!.word)
+        await driver.findElement(By.id("describePictureSubmitBtn")).click()
+        await driver.findElement(By.id("incorrect-next-button")).click()
+
+    } catch (e) {
+        console.log("describePicture", e)
+    }
+
+    aktualniCviceni = "cekat"
+    console.log("kliknuto: choosePicture")
+}
+
 async function prebratLeaderboard() {
     driver = await vytvoritOkno()
     await prihlasit(driver)
@@ -366,10 +420,15 @@ async function prebratLeaderboard() {
                 zjistitCviceni()
                 break;
 
-            // case "choosePicture":  // TODO
-            //     await choosePicture()
-            //     zjistitCviceni()
-            //     break;
+            case "choosePicture":
+                await choosePicture(driver)
+                zjistitCviceni()
+                break;
+
+            case "describePicture":
+                await describePicture(driver)
+                zjistitCviceni()
+                break;
 
             case "cekat":
                 await driver.sleep(1000)
