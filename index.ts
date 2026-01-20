@@ -247,15 +247,15 @@ async function pexeso(driver: any) {
     }
 
     aktualniCviceni = "cekat"
-    console.log("kliknuto: EXPERIMENTALNI pexeso")
+    console.log("kliknuto: pexeso")
 }
 
-async function oneOutOfMany(driver: any) { // TODO: LEVEL3 nefunkcni (xpath)
+async function oneOutOfMany(driver: any) { // TODO: nefunkcni (xpath) - melo by byt ok
 
     let nabidka = await driver.findElement(By.id("oneOutOfManyWords")).getText()
     nabidka = nabidka.split("\n")
     let zadani
-    if (nabidka.length === 5) {
+    if (nabidka.length >= 4) {
         nabidka.splice(3, 1)
         zadani = nabidka[2]
         nabidka.splice(2, 1)
@@ -268,7 +268,7 @@ async function oneOutOfMany(driver: any) { // TODO: LEVEL3 nefunkcni (xpath)
     let poziceOdpovedi: any = najitOdpovedKZadani(zadani, nabidka)
 
     try {
-        await driver.findElement(By.xpath(`//div[text()="${nabidka[poziceOdpovedi]}"]`)).click()
+        await driver.findElement(By.xpath(`//div[@class='oneOutOfManyWord btn btn-primary btn-block' and text()="${nabidka[poziceOdpovedi]}"]`)).click()
     } catch (e) {
         console.log(`oneOutOfMany: ${e}`)
     }
@@ -279,7 +279,7 @@ async function oneOutOfMany(driver: any) { // TODO: LEVEL3 nefunkcni (xpath)
     console.log("kliknuto: oneOutOfMany")
 }
 
-async function completeWord(driver: any) { // TODO: obcas nefunguje
+async function completeWord(driver: any) {
     let pismenkoKeZmacknuti: any[] = []
     let zadani = await driver.findElement(By.id("completeWordQuestion")).getText()
     let seznamTlacitek = await driver.findElements(By.className("char btn-wocagrey"))
@@ -297,11 +297,14 @@ async function completeWord(driver: any) { // TODO: obcas nefunguje
     for (let i in nahledOdpovedi) {
         if (nahledOdpovedi[i] === "_") {
             pismenkoKeZmacknuti.push(nabidka.indexOf(odpovedRozkrajeno[i]))
+            // console.log("pred odstranenim", nabidka)
             nabidka.filter((pismeno: any) => pismeno !== nabidka.indexOf(odpovedRozkrajeno[i]))
+            nabidka.splice(nabidka.indexOf(odpovedRozkrajeno[i]), 1, "")
+            // console.log("odstraneno", odpovedRozkrajeno[i], "z", nabidka)
         }
     }
 
-    console.log(pismenkoKeZmacknuti, nabidka)
+    // console.log(pismenkoKeZmacknuti, nabidka)
 
     await new Promise<void>((resolve) => {
         pismenkoKeZmacknuti.forEach(async indexPismenka => {
