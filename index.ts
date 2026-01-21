@@ -27,8 +27,30 @@ let slova: {
     total_hits_counter: number;
     total_rating: number;
 }[]
+let cviceni = [
+    "intro",
+    "problem-words",
+    "choosePicture",
+    "describePicture",
+    "completeWord",
+    "addMissingWord",
+    "translateWord",
+    "chooseWord",
+    "findPair",
+    "pexeso",
+    "oneOutOfMany",
+    "matchPair",
+    "transcribe",
+    "translateFallingWord",
+    "arrangeWords",
+    // "homeworkQuitScreen", //vzdy "padding-top: 100px; display: none;"
+    "msgCompleted",
+    "countdown"
+]
 let aktualniCviceni: string
-let completed: boolean = false
+let hotoveCviceni: boolean = true
+let ukolyNaSplneni: any[] = []
+let cviceniNaVypracovani: boolean
 
 async function vytvoritOkno() {
     return await new Builder().forBrowser(Browser.FIREFOX).build();
@@ -44,31 +66,48 @@ async function prihlasit(driver: any) {
         console.log(`${e}, existuje .env?`)
     }
     await driver.wait(until.elementLocated(By.className("flag")), 10000).click()
-    await driver.navigate().to("https://wocabee.app/app/student/class/practice/?class_id=123162&package_id=1704353&mode=homework");
+}
+
+async function najitDomaciUkol() {
+    let ukoly = await driver.findElements(By.className("actionBtn btn btn-success btn-block"))
+    let ukolyId: any[] = []
+
+    if (ukoly.length !== 0) {
+        await new Promise<void>((resolve) => {
+            ukoly.forEach(async (element: any) => {
+                let cisloCviceni = await element.getAttribute("id")
+                cisloCviceni = cisloCviceni.slice(6)
+                ukolyId.push({ cisloCviceni, element })
+                if (element == ukoly[ukoly.length - 1]) {
+                    // ukolyNaSplneni = [] // vsechna cviceni dokoncena
+                    ukolyNaSplneni = ukolyId
+                    resolve()
+                }
+            });
+        })
+        ukolyNaSplneni = ukolyId
+        cviceniNaVypracovani = true
+        hotoveCviceni = false
+    } else {
+        cviceniNaVypracovani == false
+        console.log("vsechny ukoly vypracovany")
+    }
+    // console.log("final:", ukolyId)
+    return
+}
+
+async function otevritCviceni() {
+    console.log(ukolyNaSplneni)
+    try {
+        await ukolyNaSplneni[0].element.click()
+        hotoveCviceni = false
+        choosePicturePocitadlo = 0
+    } catch (e) {
+        console.log(`otevritCviceni: ${e}`)
+    }
 }
 
 async function zjistitCviceni() {
-    let cviceni = [
-        "intro",
-        "problem-words",
-        "choosePicture",
-        "describePicture",
-        "completeWord",
-        "addMissingWord",
-        "translateWord",
-        "chooseWord",
-        "findPair",
-        "pexeso",
-        "oneOutOfMany",
-        "matchPair",
-        "transcribe",
-        "translateFallingWord",
-        "arrangeWords",
-        // "homeworkQuitScreen", //vzdy "padding-top: 100px; display: none;"
-        "msgCompleted",
-        "countdown"
-    ]
-
     cviceni.forEach(async i => {
         let a = await driver.findElement(By.id(i)).getAttribute("style")
         if (a.search("display: none;") == -1) {
@@ -80,13 +119,19 @@ async function zjistitCviceni() {
 }
 
 async function sehnatHtml() {
+    let aktualniCviceniUrl = await driver.getCurrentUrl()
+    console.log(aktualniCviceniUrl)
+    let classId = aktualniCviceniUrl.slice(aktualniCviceniUrl.search("class_id=") + 9, aktualniCviceniUrl.search("class_id=") + 9 + 6)
+    console.log(classId)
+    let packageId = ukolyNaSplneni[0].cisloCviceni
+    console.log(packageId)
     let axiosFormatCookies: string = ""
     let cookies = await driver.manage().getCookies()
     cookies = cookies.forEach((cookie: any) => {
         axiosFormatCookies = axiosFormatCookies.concat(`${cookie.name}=${cookie.value}; `)
     });
 
-    await axios.get("https://wocabee.app/app/student/class/practice/?class_id=123162&package_id=1704353&mode=homework", {
+    await axios.get(`https://wocabee.app/app/student/class/practice/?class_id=${classId}&package_id=${packageId}&mode=homework`, {
         headers: {
             'Cookie': axiosFormatCookies,
         }
@@ -280,7 +325,7 @@ async function oneOutOfMany(driver: any) { // TODO: nefunkcni (xpath) - melo by 
         console.log(`oneOutOfMany: ${e}`)
     }
 
-    // console.log("nabidka ", nabidka, "zadani", zadani)
+    // console.log("nabidka ", nabidka, "zadani", zadani, "poziceOdpovedi", poziceOdpovedi)
 
     aktualniCviceni = "cekat"
     console.log("kliknuto: oneOutOfMany")
@@ -361,7 +406,8 @@ async function choosePicture(driver: any) {
                         console.log("klikam s poradiObrazku", poradiObrazku)
                         await driver.findElement(By.xpath(`//img[@class='picture' and @word_id='${moznost}']`)).click()
                         await driver.findElement(By.xpath(`//img[@class='picture' and @word_id='${moznost}']`)).click()
-                        // await driver.findElement(By.xpath(`//div[@id='slick-slide0${poradiObrazku + 1}'][1]/img[@class='picture'][1]`)).click()
+                        choosePicturePocitadlo++
+                        // await driver.findElement(By.xpath(`//div[@id='slick-slide${choosePicturePocitadlo}${poradiObrazku + 1}'][1]/img[@class='picture'][1]`)).click()
                     } catch (e) {
                         console.log("choosePicture:", e)
                     }
@@ -393,70 +439,94 @@ async function describePicture(driver: any) { // trefit slovo s indexem 0 TODO: 
 async function prebratLeaderboard() {
     driver = await vytvoritOkno()
     await prihlasit(driver)
-    await zjistitCviceni()
-    await sehnatHtml()
+    await najitDomaciUkol()
+    while (cviceniNaVypracovani) {
+        await otevritCviceni()
 
-    while (!completed) {
-        switch (aktualniCviceni) {
-            case "intro":
-                await intro()
-                zjistitCviceni()
-                break;
+        await zjistitCviceni()
+        await sehnatHtml()
 
-            case "chooseWord":
-                await chooseWord(driver)
-                zjistitCviceni()
-                break;
+        while (!hotoveCviceni) {
+            switch (aktualniCviceni) {
+                case "intro":
+                    await intro()
+                    zjistitCviceni()
+                    break;
 
-            case "transcribe":
-                await transcribe(driver)
-                zjistitCviceni()
-                break;
+                case "chooseWord":
+                    await chooseWord(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "translateWord":
-                await translateWord(driver)
-                zjistitCviceni()
-                break;
+                case "transcribe":
+                    await transcribe(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "findPair":
-                await findPair(driver)
-                zjistitCviceni()
-                break;
+                case "translateWord":
+                    await translateWord(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "pexeso":  // nefunguje
-                await pexeso(driver)
-                zjistitCviceni()
-                break;
+                case "findPair":
+                    await findPair(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "oneOutOfMany":
-                await oneOutOfMany(driver)
-                zjistitCviceni()
-                break;
+                case "pexeso":
+                    await pexeso(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "completeWord":
-                await completeWord(driver)
-                zjistitCviceni()
-                break;
+                case "oneOutOfMany":
+                    await oneOutOfMany(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "choosePicture":
-                await choosePicture(driver)
-                zjistitCviceni()
-                break;
+                case "completeWord":
+                    await completeWord(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "describePicture":
-                await describePicture(driver)
-                zjistitCviceni()
-                break;
+                case "choosePicture":
+                    await choosePicture(driver)
+                    zjistitCviceni()
+                    break;
 
-            case "cekat":
-                await driver.sleep(1000)
-                zjistitCviceni()
-                break;
+                case "describePicture":
+                    await describePicture(driver)
+                    zjistitCviceni()
+                    break;
 
-            default:
-                console.log(`neimplementovano: ${aktualniCviceni}`)
-                completed = true
-                break;
+                case "msgCompleted":
+                    try {
+                        await driver.findElement(By.id("continueBtn")).click()
+                    } catch {
+                        await driver.findElement(By.id("backBtn")).click()
+                    }
+                    await driver.sleep(3000)
+                    try {
+                        while (true) {
+                            await driver.findElement(By.id("backBtn")).click()
+                            await driver.sleep(2000)
+                        }
+                    } catch {
+                        console.log("CVICENI HOTOVO! vracím na přehled cvičení")
+                        hotoveCviceni = true
+                        await najitDomaciUkol()
+                    }
+                    break;
+
+                case "cekat":
+                    await driver.sleep(1000)
+                    zjistitCviceni()
+                    break;
+
+                default:
+                    console.log(`neimplementovano: ${aktualniCviceni}`)
+                    hotoveCviceni = true
+                    break;
+            }
         }
     }
 }
