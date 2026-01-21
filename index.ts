@@ -250,16 +250,23 @@ async function pexeso(driver: any) {
     console.log("kliknuto: pexeso")
 }
 
-async function oneOutOfMany(driver: any) { // TODO: nefunkcni (xpath) - melo by byt ok
+async function oneOutOfMany(driver: any) { // TODO: nefunkcni (xpath) - melo by byt ok - nebylo... ale uz snad bude
 
     let nabidka = await driver.findElement(By.id("oneOutOfManyWords")).getText()
     nabidka = nabidka.split("\n")
     let zadani
-    if (nabidka.length >= 4) {
+
+    // console.log("nabídka před filtrováním", nabidka)
+
+    if (nabidka.length == 7 + 1) {
+        nabidka.splice(4, 1)
+        zadani = nabidka[3]
+        nabidka.splice(3, 1)
+    } else if (nabidka.length == 5 + 1) {
         nabidka.splice(3, 1)
         zadani = nabidka[2]
         nabidka.splice(2, 1)
-    } else {
+    } else if (nabidka.length == 3 + 1) {
         nabidka.splice(2, 1)
         zadani = nabidka[1]
         nabidka.splice(1, 1)
