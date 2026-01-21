@@ -321,11 +321,19 @@ async function completeWord(driver: any) {
     console.log("kliknuto: completeWord")
 }
 
+let choosePicturePocitadlo = 0 // TODO: vynulovat při novem cviceni
 async function choosePicture(driver: any) {
+    let m1
+    let m2
+    let m3
     let zadani = await driver.findElement(By.id("choosePictureWord")).getText()
-    let m1 = await driver.findElement(By.xpath("//div[@id='slick-slide00'][1]/img[@class='picture'][1]")).getAttribute("word_id")
-    let m2 = await driver.findElement(By.xpath("//div[@id='slick-slide01'][1]/img[@class='picture'][1]")).getAttribute("word_id")
-    let m3 = await driver.findElement(By.xpath("//div[@id='slick-slide02'][1]/img[@class='picture'][1]")).getAttribute("word_id")
+    try {
+        m1 = await driver.findElement(By.xpath(`//div[@id='slick-slide${choosePicturePocitadlo}0'][1]/img[@class='picture'][1]`)).getAttribute("word_id")
+        m2 = await driver.findElement(By.xpath(`//div[@id='slick-slide${choosePicturePocitadlo}1'][1]/img[@class='picture'][1]`)).getAttribute("word_id")
+        m3 = await driver.findElement(By.xpath(`//div[@id='slick-slide${choosePicturePocitadlo}2'][1]/img[@class='picture'][1]`)).getAttribute("word_id")
+    } catch (e) {
+        console.log("choosePicture: ", e)
+    }
     let moznosti = [m1, m2, m3]
 
     let odpoved = najitOdpovedKZadani(zadani, [])
