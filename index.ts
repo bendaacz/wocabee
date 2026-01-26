@@ -73,18 +73,15 @@ async function najitDomaciUkol() {
     let ukolyId: any[] = []
 
     if (ukoly.length !== 0) {
-        await new Promise<void>((resolve) => {
-            ukoly.forEach(async (element: any) => {
-                let cisloCviceni = await element.getAttribute("id")
-                cisloCviceni = cisloCviceni.slice(6)
-                ukolyId.push({ cisloCviceni, element })
-                if (element == ukoly[ukoly.length - 1]) {
-                    // ukolyNaSplneni = [] // vsechna cviceni dokoncena
-                    ukolyNaSplneni = ukolyId
-                    resolve()
-                }
-            });
-        })
+        for (let i in ukoly) {
+            let element = ukoly[i]
+            let cisloCviceni = await ukoly[i].getAttribute("id")
+            cisloCviceni = cisloCviceni.slice(6)
+            ukolyId.push({ cisloCviceni, element })
+            if (ukoly[i] == ukoly[ukoly.length - 1]) {
+                ukolyNaSplneni = ukolyId
+            }
+        }
         ukolyNaSplneni = ukolyId
         cviceniNaVypracovani = true
         hotoveCviceni = false
@@ -285,10 +282,20 @@ async function pexeso(driver: any) {
     wocaId.sort((prvni, druhy) => prvni.id - druhy.id)
     console.log("serazeno: ", wocaId)
 
+    await driver.sleep(500)
+
     for (let i in wocaId) {
         let asdf = wocaId[i]
-        await nabidka[asdf!.poradi].click()
-        await nabidka[asdf!.poradi].click()
+        try {
+            await nabidka[asdf!.poradi].click()
+            await nabidka[asdf!.poradi].click()
+        } catch (e) {
+            console.log("muze za to wocapoint gratulace??", await driver.findElement(By.id("wocaPointsReward")).getAttribute("style") !== "display: none;")
+            console.log("cekam, az zmizi wocapoint gratulace...")
+            await driver.sleep(5000)
+            await nabidka[asdf!.poradi].click()
+            await nabidka[asdf!.poradi].click()
+        }
     }
 
     aktualniCviceni = "cekat"
@@ -422,9 +429,32 @@ async function choosePicture(driver: any) {
     console.log("kliknuto: choosePicture")
 }
 
-async function describePicture(driver: any) { // trefit slovo s indexem 0 TODO: opravit třeba někdy
+async function describePicture(driver: any) {
     try {
-        await driver.findElement(By.id("describePictureAnswer")).sendKeys(slova[0]!.word)
+        let odpoved = ""
+        let filename = await driver.findElement(By.xpath("//img[@id='describePictureImg']")).getAttribute("src")
+        console.log("obsah src atributu", filename)
+        filename = filename.split("/")
+        filename = filename[filename.length - 1]
+        console.log("nazev souboru 2", filename)
+
+        await new Promise<void>((resolve) => {
+            slova.forEach(slovo => {
+                try {
+                    if (slovo.p_filename == filename) {
+                        console.log("match obrazku =", slovo.word, slovo.translation)
+                        odpoved = slovo.translation
+                    } else {
+                        console.log("zatím nic:", slovo.p_filename, "!=", filename)
+                    }
+                } catch (e) {
+                    console.log("describePicture:", e)
+                } finally {
+                    resolve()
+                }
+            });
+        })
+        await driver.findElement(By.id("describePictureAnswer")).sendKeys(odpoved)
         await driver.findElement(By.id("describePictureSubmitBtn")).click()
         await driver.findElement(By.id("incorrect-next-button")).click()
 
@@ -441,6 +471,7 @@ async function prebratLeaderboard() {
     await prihlasit(driver)
     await najitDomaciUkol()
     while (cviceniNaVypracovani) {
+        await najitDomaciUkol()
         await otevritCviceni()
 
         await zjistitCviceni()
@@ -499,22 +530,10 @@ async function prebratLeaderboard() {
                     break;
 
                 case "msgCompleted":
-                    try {
-                        await driver.findElement(By.id("continueBtn")).click()
-                    } catch {
-                        await driver.findElement(By.id("backBtn")).click()
-                    }
-                    await driver.sleep(3000)
-                    try {
-                        while (true) {
-                            await driver.findElement(By.id("backBtn")).click()
-                            await driver.sleep(2000)
-                        }
-                    } catch {
-                        console.log("CVICENI HOTOVO! vracím na přehled cvičení")
-                        hotoveCviceni = true
-                        await najitDomaciUkol()
-                    }
+                    console.log("CVICENI HOTOVO! vracím na přehled cvičení")
+                    hotoveCviceni = true
+                    cviceniNaVypracovani = false
+                    // TODO: co teď?
                     break;
 
                 case "cekat":

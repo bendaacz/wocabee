@@ -184,6 +184,16 @@ async function translateFallingWord(driver: any) {
     } catch (e) {
         // console.log(`translateFallingWord: ${e}`)
     }
+
+    console.log(await driver.findElement(By.id("incorrect")).getAttribute("style"), "display: none;")
+    if (await driver.findElement(By.id("incorrect")).getAttribute("style") !== "display: none;") {
+        try {
+            await driver.sleep(100)
+            await driver.findElement(By.id("incorrect-next-button")).click()
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }
 
 async function prebratLeaderboard() {
@@ -202,6 +212,7 @@ async function prebratLeaderboard() {
 
             case "translateFallingWord":
                 await translateFallingWord(driver)
+                await driver.sleep(100)
                 await zjistitCviceni()
                 break;
 
