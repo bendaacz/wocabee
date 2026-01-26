@@ -255,7 +255,7 @@ async function findPair(driver: any) {
     console.log("kliknuto: findPair")
 }
 
-async function pexeso(driver: any) { // TODO: nahodně ElementNotInteractableError: Element <div class="pexesoCardWrapper pexesoWord"> could not be scrolled into view
+async function pexeso(driver: any) {
     let nabidka = await driver.findElements(By.xpath("//div[@w_id]"))
     let wocaId: { poradi: number; id: any; }[] = []
     let poradi = 0
@@ -279,13 +279,13 @@ async function pexeso(driver: any) { // TODO: nahodně ElementNotInteractableErr
     for (let i in wocaId) {
         let asdf = wocaId[i]
         try {
-            await nabidka[asdf!.poradi].click() // index.ts:279:9
+            await nabidka[asdf!.poradi].click()
             await nabidka[asdf!.poradi].click()
         } catch (e) {
             console.log("muze za to wocapoint gratulace??", await driver.findElement(By.id("wocaPointsReward")).getAttribute("style") !== "display: none;")
             console.log("cekam, az zmizi wocapoint gratulace...")
             await driver.sleep(5000)
-            await nabidka[asdf!.poradi].click() // index.ts:279:9
+            await nabidka[asdf!.poradi].click()
             await nabidka[asdf!.poradi].click()
         }
     }
@@ -294,7 +294,7 @@ async function pexeso(driver: any) { // TODO: nahodně ElementNotInteractableErr
     console.log("kliknuto: pexeso")
 }
 
-async function oneOutOfMany(driver: any) { // TODO: nefunkcni (xpath) - melo by byt ok - nebylo... ale uz snad bude
+async function oneOutOfMany(driver: any) {
 
     let nabidka = await driver.findElement(By.id("oneOutOfManyWords")).getText()
     nabidka = nabidka.split("\n")
@@ -372,7 +372,7 @@ async function completeWord(driver: any) {
     console.log("kliknuto: completeWord")
 }
 
-let choosePicturePocitadlo = 0 // TODO: vynulovat při novem cviceni
+let choosePicturePocitadlo = 0
 async function choosePicture(driver: any) {
     let m1
     let m2

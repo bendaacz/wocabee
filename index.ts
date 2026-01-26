@@ -302,7 +302,7 @@ async function pexeso(driver: any) {
     console.log("kliknuto: pexeso")
 }
 
-async function oneOutOfMany(driver: any) { // TODO: nefunkcni (xpath) - melo by byt ok - nebylo... ale uz snad bude
+async function oneOutOfMany(driver: any) {
 
     let nabidka = await driver.findElement(By.id("oneOutOfManyWords")).getText()
     nabidka = nabidka.split("\n")
@@ -380,7 +380,7 @@ async function completeWord(driver: any) {
     console.log("kliknuto: completeWord")
 }
 
-let choosePicturePocitadlo = 0 // TODO: vynulovat při novem cviceni
+let choosePicturePocitadlo = 0
 async function choosePicture(driver: any) {
     let m1
     let m2
@@ -456,7 +456,6 @@ async function describePicture(driver: any) {
         })
         await driver.findElement(By.id("describePictureAnswer")).sendKeys(odpoved)
         await driver.findElement(By.id("describePictureSubmitBtn")).click()
-        await driver.findElement(By.id("incorrect-next-button")).click()
 
     } catch (e) {
         console.log("describePicture", e)
