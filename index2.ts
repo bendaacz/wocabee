@@ -1,6 +1,6 @@
-const { Builder, Browser, By, Key, until } = require('selenium-webdriver');
-require("dotenv").config();
-const axios = require("axios");
+import { Builder, Browser, By, Key, until } from "selenium-webdriver"
+import 'dotenv/config'
+import axios from "axios"
 
 let driver: any;
 let slova: {
