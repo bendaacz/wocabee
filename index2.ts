@@ -134,7 +134,7 @@ async function zjistitCviceni() {
     //     }
     // })
     for (let i in cviceni) {
-        let a = await driver.findElement(By.id(cviceni[i])).getAttribute("style")
+        let a = await driver.findElement(By.id(cviceni[i]!)).getAttribute("style")
         if (a === "") {
             console.log(`mam ${cviceni[i]}`)
             aktualniCviceni = cviceni[i]!
@@ -458,7 +458,7 @@ async function describePicture(driver: any) { // uz nahodne netipujene :3
     console.log("kliknuto: choosePicture")
 }
 
-async function prebratLeaderboard() {
+export async function practiceOnePoint() {
     driver = await vytvoritOkno()
     await prihlasit(driver)
 
@@ -517,7 +517,6 @@ async function prebratLeaderboard() {
                 break;
 
             case "cekat":
-                console.log("cekam")
                 await driver.sleep(300)
                 await zjistitCviceni()
                 break;
@@ -530,5 +529,3 @@ async function prebratLeaderboard() {
         }
     }
 }
-
-prebratLeaderboard()

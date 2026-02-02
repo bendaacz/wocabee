@@ -129,7 +129,7 @@ async function otevritProcvicovani() {
 
 async function zjistitCviceni() {
     for (let i in cviceni) {
-        let a = await driver.findElement(By.id(cviceni[i])).getAttribute("style")
+        let a = await driver.findElement(By.id(cviceni[i]!)).getAttribute("style")
         if (a === "") {
             console.log(`mam ${cviceni[i]}`)
             aktualniCviceni = cviceni[i]!
@@ -185,18 +185,17 @@ async function translateFallingWord(driver: any) {
         // console.log(`translateFallingWord: ${e}`)
     }
 
-    console.log(await driver.findElement(By.id("incorrect")).getAttribute("style"), "display: none;")
     if (await driver.findElement(By.id("incorrect")).getAttribute("style") !== "display: none;") {
         try {
             await driver.sleep(100)
             await driver.findElement(By.id("incorrect-next-button")).click()
         } catch (e) {
-            console.log(e)
+            console.log(`translateFallingWord: ${e}`)
         }
     }
 }
 
-async function prebratLeaderboard() {
+export async function practiceTwoPoints() {
     driver = await vytvoritOkno()
     await prihlasit(driver)
 
@@ -222,5 +221,3 @@ async function prebratLeaderboard() {
         }
     }
 }
-
-prebratLeaderboard()
