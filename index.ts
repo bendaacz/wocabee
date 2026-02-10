@@ -622,6 +622,22 @@ async function prebratLeaderboard() {
                             console.log("CVICENI HOTOVO! vracím na přehled cvičení")
                             hotoveCviceni = true
                             cviceniNaVypracovani = false
+                            await driver.sleep(3000)
+                            try {
+                                await driver.findElement(By.id("continueBtn")).click()
+                            } catch {
+                                console.log("continueBtn")
+                                await driver.sleep(3000)
+                            }
+                            try {
+                                while (true) {
+                                    await driver.findElement(By.id("problem-words-next")).click()
+                                    await driver.sleep(3000)
+                                }
+                            } catch {
+                                console.log("chyby ve cvičení")
+                                await driver.sleep(3000)
+                            }
                             let zpet = await driver.findElement(By.id("backBtn"))
                             await driver.wait(until.elementIsVisible(zpet)).click()
                             break;
