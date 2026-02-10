@@ -59,14 +59,14 @@ function najitOdpovedKZadani(zadani: string, nabidka: string[]) {
     let vysledek: any
     slova.forEach((jsonSlova: any) => {
         if (jsonSlova.word == zadani) {
-            // console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
             if (nabidka.length == 0) {
                 vysledek = jsonSlova.translation
             } else {
                 vysledek = nabidka.indexOf(jsonSlova.translation)
             }
         } else if (jsonSlova.translation == zadani) {
-            // console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+            console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
             if (nabidka.length == 0) {
                 vysledek = jsonSlova.word
             } else {
@@ -103,7 +103,7 @@ async function najitProcvicovani() {
     } else {
         console.log("zadne dostupne procvicovani")
     }
-    // console.log(nejnovejsiProcvicovani)
+    console.log(nejnovejsiProcvicovani)
     return;
 }
 
@@ -143,11 +143,11 @@ async function zjistitCviceni() {
 
 async function sehnatHtml() {
     let aktualniCviceniUrl = await driver.getCurrentUrl()
-    // console.log(aktualniCviceniUrl)
+    console.log(aktualniCviceniUrl)
     let classId = aktualniCviceniUrl.slice(aktualniCviceniUrl.search("class_id=") + 9, aktualniCviceniUrl.search("class_id=") + 9 + 6)
-    // console.log(classId)
+    console.log(classId)
     let packageId = nejnovejsiProcvicovani.cisloCviceni
-    // console.log(packageId)
+    console.log(packageId)
     let axiosFormatCookies: string = ""
     let cookies = await driver.manage().getCookies()
     cookies = cookies.forEach((cookie: any) => {
@@ -161,7 +161,7 @@ async function sehnatHtml() {
     }).then((res: any) => {
         let zacatekPrekladu = res.data.replace(/\$|`/g, "").search("var locWords") + 15
         let konecPrekladu = res.data.replace(/\$|`/g, "").search(`var C_oneAnswerGameNoOfSeconds`)
-        // console.log(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
+        console.log(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
         slova = JSON.parse(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
     })
 }
@@ -186,7 +186,7 @@ async function translateFallingWord(driver: any) {
     try {
         await driver.findElement(By.id("translateFallingWordSubmitBtn")).click()
     } catch (e) {
-        // console.log(`translateFallingWord: ${e}`)
+        console.log(`translateFallingWord: ${e}`)
     }
 
     if (await driver.findElement(By.id("incorrect")).getAttribute("style") !== "display: none;") {

@@ -99,7 +99,7 @@ async function prebratLeaderboard() {
                 console.log("vsechny ukoly vypracovany")
                 ukolyDokonceny = true
             }
-            // console.log("final:", ukolyId)
+            console.log("final:", ukolyId)
             return
         }
 
@@ -145,7 +145,7 @@ async function prebratLeaderboard() {
             }).then((res: any) => {
                 let zacatekPrekladu = res.data.replace(/\$|`/g, "").search("var locWords") + 15
                 let konecPrekladu = res.data.replace(/\$|`/g, "").search(`var C_oneAnswerGameNoOfSeconds`)
-                // console.log(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
+                console.log(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
                 slova = JSON.parse(res.data.replace(/\$|`/g, "").slice(zacatekPrekladu, konecPrekladu).split(";")[0])
             })
         }
@@ -154,14 +154,14 @@ async function prebratLeaderboard() {
             let vysledek: any
             slova.forEach((jsonSlova: any) => {
                 if (jsonSlova.word == zadani) {
-                    // console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+                    console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
                     if (nabidka.length == 0) {
                         vysledek = jsonSlova.translation
                     } else {
                         vysledek = nabidka.indexOf(jsonSlova.translation)
                     }
                 } else if (jsonSlova.translation == zadani) {
-                    // console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+                    console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
                     if (nabidka.length == 0) {
                         vysledek = jsonSlova.word
                     } else {
@@ -222,11 +222,11 @@ async function prebratLeaderboard() {
 
             slova.forEach(async (jsonSlova: any) => { // TODO: pouzit funkci najidOdpovediKZadani()
                 if (jsonSlova.word == zadani) {
-                    // console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+                    console.log(`match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
                     await driver.findElement(By.id("translateWordAnswer")).sendKeys(jsonSlova.translation)
                     return;
                 } else if (jsonSlova.translation == zadani) {
-                    // console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
+                    console.log(`match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`)
                     await driver.findElement(By.id("translateWordAnswer")).sendKeys(jsonSlova.word)
                     return;
                 }
@@ -318,7 +318,7 @@ async function prebratLeaderboard() {
             nabidka = nabidka.split("\n")
             let zadani
 
-            // console.log("nabídka před filtrováním", nabidka)
+            console.log("nabídka před filtrováním", nabidka)
 
             if (nabidka.length == 7 + 1) {
                 nabidka.splice(4, 1)
@@ -342,7 +342,7 @@ async function prebratLeaderboard() {
                 console.log(`oneOutOfMany: ${e}`)
             }
 
-            // console.log("nabidka ", nabidka, "zadani", zadani, "poziceOdpovedi", poziceOdpovedi)
+            console.log("nabidka ", nabidka, "zadani", zadani, "poziceOdpovedi", poziceOdpovedi)
 
             aktualniCviceni = "cekat"
             console.log("kliknuto: oneOutOfMany")
@@ -357,7 +357,7 @@ async function prebratLeaderboard() {
             nabidka = await nabidka.getText()
             nabidka = nabidka.split("")
 
-            // console.log("slovicka z nabidky", nabidka, " a zadanicko:", zadani)
+            console.log("slovicka z nabidky", nabidka, " a zadanicko:", zadani)
             let odpoved: any = najitOdpovedKZadani(zadani, [])
 
             let nahledOdpovedi = await driver.findElement(By.id("completeWordAnswer")).getText()
@@ -366,14 +366,14 @@ async function prebratLeaderboard() {
             for (let i in nahledOdpovedi) {
                 if (nahledOdpovedi[i] === "_") {
                     pismenkoKeZmacknuti.push(nabidka.indexOf(odpovedRozkrajeno[i]))
-                    // console.log("pred odstranenim", nabidka)
+                    console.log("pred odstranenim", nabidka)
                     nabidka.filter((pismeno: any) => pismeno !== nabidka.indexOf(odpovedRozkrajeno[i]))
                     nabidka.splice(nabidka.indexOf(odpovedRozkrajeno[i]), 1, "")
-                    // console.log("odstraneno", odpovedRozkrajeno[i], "z", nabidka)
+                    console.log("odstraneno", odpovedRozkrajeno[i], "z", nabidka)
                 }
             }
 
-            // console.log(pismenkoKeZmacknuti, nabidka)
+            console.log(pismenkoKeZmacknuti, nabidka)
 
             await new Promise<void>((resolve) => {
                 pismenkoKeZmacknuti.forEach(async indexPismenka => {
