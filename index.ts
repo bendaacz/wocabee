@@ -472,7 +472,79 @@ async function prebratLeaderboard() {
             }
 
             aktualniCviceni = "cekat"
-            console.log("kliknuto: choosePicture")
+            console.log("kliknuto: describePicture")
+        }
+
+        async function arrangeWords(driver: any) {
+            let zadani = await driver.findElement(By.id("def-lang-sentence")).getText()
+            let odpoved = await najitOdpovedKZadani(zadani, [])
+            let odpovedPole = []
+            let vysledek: { puvodniPoradi: number; slovo: string; }[] = []
+
+            console.log("ZADÁNÍ:", zadani)
+            console.log("ODPOVĚĎ:", odpoved)
+            odpoved = odpoved.split(" ")
+            odpoved[odpoved.length - 1] = odpoved[odpoved.length - 1].slice(0, -1)
+            console.log("odpoved", odpoved)
+
+            let posunovaciSlova = await driver.findElements(By.className("btn word-to-arrange btn-lg btn-primary"))
+
+            for (let i in posunovaciSlova) {
+                odpovedPole.push(await posunovaciSlova[i].getAttribute("word"))
+            }
+            console.log("odpovedPole", odpovedPole)
+
+            for (let i in odpovedPole) {
+                vysledek.push({ puvodniPoradi: odpoved.indexOf(odpovedPole[i]), slovo: odpovedPole[i] })
+                console.log(odpoved.indexOf(odpovedPole[i]))
+            }
+
+            vysledek.sort((a, b) => a.puvodniPoradi - b.puvodniPoradi)
+            console.log(vysledek)
+
+            // for (let i in vysledek) {
+            //     let dragovat = await driver.findElement(`[word="${vysledek[i]!.slovo}"]`)
+            //     let cilDragovani = await driver.findElement(By.id("static-punctuation"))
+            //     new driver.actions().dragAndDrop(dragovat, cilDragovani).perform()
+            // }
+
+            // vzdát to (zatím)
+            // TODO: dragovani se seleniem
+            await driver.findElement(By.id("arrangeWordsSubmitBtn")).click()
+            await driver.sleep(400)
+            await driver.findElement(By.id("incorrect-next-button")).click()
+
+            aktualniCviceni = "cekat"
+            console.log("kliknuto: arrangeWords")
+        }
+
+        async function addMissingWord(driver: any) {
+            let zadani = await driver.findElement(By.id("q_sentence")).getText()
+            console.log(zadani)
+            let vysledek
+
+            let neuplnaVeta = await driver.findElement(By.id("a_sentence")).getText()
+            neuplnaVeta = neuplnaVeta.split(" ")
+            console.log("neuplna veta:", neuplnaVeta)
+
+            let odpoved = najitOdpovedKZadani(zadani, [])
+            odpoved = odpoved.split(" ")
+            console.log(odpoved)
+
+            for (let i in neuplnaVeta) {
+                if (neuplnaVeta[i] === odpoved[i]) {
+                    console.log("ok")
+                } else {
+                    vysledek = odpoved[i]
+                    console.log("vysledek:", odpoved[i])
+                    break;
+                }
+            }
+
+            await driver.findElement(By.id("missingWordAnswer")).sendKeys(vysledek, Key.RETURN)
+
+            aktualniCviceni = "cekat"
+            console.log("kliknuto: addMissingWord")
         }
 
         async function vypracovatCviceni() {
@@ -533,6 +605,16 @@ async function prebratLeaderboard() {
 
                         case "describePicture":
                             await describePicture(driver)
+                            zjistitCviceni()
+                            break;
+
+                        case "arrangeWords":
+                            await arrangeWords(driver)
+                            zjistitCviceni()
+                            break;
+
+                        case "addMissingWord":
+                            await addMissingWord(driver)
                             zjistitCviceni()
                             break;
 
