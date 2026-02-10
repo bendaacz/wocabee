@@ -2,6 +2,10 @@ import { Builder, Browser, By, Key, until } from "selenium-webdriver"
 import 'dotenv/config'
 import axios from "axios"
 
+if (process.env.DEBUG === "0") {
+    console.log = function () { }
+}
+
 let ukolyDokonceny = false
 let driver: any
 
