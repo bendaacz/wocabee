@@ -111,8 +111,8 @@ async function prihlasit(driver: any) {
     await driver.get('https://wocabee.app/app')
 
     try {
-        await driver.findElement(By.id('login')).sendKeys(process.env.USERNAME)
-        await driver.findElement(By.id("password")).sendKeys(process.env.PASSWORD, Key.RETURN)
+        await driver.findElement(By.id('login')).sendKeys(process.env.WOCABEE_USERNAME)
+        await driver.findElement(By.id("password")).sendKeys(process.env.WOCABEE_PASSWORD, Key.RETURN)
     } catch (e) {
         console.log(`${e}, existuje .env?`)
     }
