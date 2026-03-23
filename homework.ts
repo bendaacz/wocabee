@@ -502,18 +502,22 @@ async function prebratLeaderboard() {
             vysledek.sort((a, b) => a.puvodniPoradi - b.puvodniPoradi)
             console.log(vysledek)
 
-            // for (let i in vysledek) {
-            //     let dragovat = await driver.findElement(`[word="${vysledek[i]!.slovo}"]`)
-            //     let cilDragovani = await driver.findElement(By.id("static-punctuation"))
-            //     new driver.actions().dragAndDrop(dragovat, cilDragovani).perform()
-            // }
+            for (let i in vysledek) {
+                console.log(vysledek[i]!.slovo)
+                let dragovat = await driver.findElement(By.xpath(`//div[contains(@word, "${vysledek[i]!.slovo}")]`))
+                let cilDragovani = await driver.findElement(By.id("static-punctuation"))
+                const actions = driver.actions({ bridge: true });
+                await actions
+                    .dragAndDrop(dragovat, cilDragovani)
+                    .perform();
+                await driver.sleep(500) // da se zrychlit, delay byt musi
+            }
 
-            // vzdát to (zatím)
-            // TODO: dragovani se seleniem
             await driver.findElement(By.id("arrangeWordsSubmitBtn")).click()
             await driver.sleep(400)
-            await driver.findElement(By.id("incorrect-next-button")).click()
-
+            try {
+                await driver.findElement(By.id("incorrect-next-button")).click()
+            } catch { }
             aktualniCviceni = "cekat"
             console.log("kliknuto: arrangeWords")
         }
