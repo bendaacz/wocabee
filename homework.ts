@@ -220,7 +220,7 @@ async function prebratLeaderboard() {
       aktualniCviceni = "cekat";
     }
 
-    async function listenAndChoose(driver: any) {
+    async function chooseWord(driver: any) {
       let zadani = await driver.findElement(By.id("ch_word"));
       zadani = await zadani.getText();
 
@@ -233,7 +233,19 @@ async function prebratLeaderboard() {
         await driver
           .findElement(
             By.xpath(
-              `//button[@class='chooseWordAnswer btn btn-lg btn-primary btn-block'][text()="${nabidka[poziceOdpovedi]}"]`,
+              `//button[@class='chooseWordAnswer btn btn-lg btn-primary btn-block'][text()="${nabidka[poziceOdpovedi]}"]`, //TODO: chooseWordAnswer je jinde na chooseWord a chooseSpelling
+            ),
+          )
+          .click(); //*[text()="${nabidka[poziceOdpovedi]}"]
+      } catch (e) {
+        console.log(`chooseWord: ${e}`);
+      }
+
+      try {
+        await driver
+          .findElement(
+            By.xpath(
+              `//button[@class='btn btn-lg btn-primary btn-block chooseWordAnswer'][text()="${nabidka[poziceOdpovedi]}"]`,
             ),
           )
           .click(); //*[text()="${nabidka[poziceOdpovedi]}"]
