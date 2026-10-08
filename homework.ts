@@ -61,6 +61,8 @@ async function prebratLeaderboard() {
       "intro",
       "problem-words",
       "choosePicture",
+      "chooseSpelling",
+      "listenAndChoose",
       "describePicture",
       "completeWord",
       "addMissingWord",
@@ -255,6 +257,44 @@ async function prebratLeaderboard() {
 
       aktualniCviceni = "cekat";
       console.log("kliknuto: chooseWord");
+    }
+
+    async function chooseSpelling(driver: any) {
+      let zadani = await driver.findElement(By.id("cs_word"));
+      zadani = await zadani.getText();
+
+      let nabidka = await driver
+        .findElement(By.id("chooseSpellingWords"))
+        .getText();
+      nabidka = nabidka.split("\n");
+
+      let poziceOdpovedi: any = najitOdpovedKZadani(zadani, nabidka);
+
+      try {
+        await driver
+          .findElement(
+            By.xpath(
+              `//button[@class='chooseSpellingAnswer btn btn-lg btn-primary btn-block'][text()="${nabidka[poziceOdpovedi]}"]`,
+            ),
+          )
+          .click(); //*[text()="${nabidka[poziceOdpovedi]}"]
+      } catch (e) {
+        console.log(`chooseWord: ${e}`);
+      }
+      console.log(nabidka[poziceOdpovedi]);
+
+      aktualniCviceni = "cekat";
+      console.log("kliknuto: checkSpelling");
+    }
+
+    async function listenAndChoose(driver: any) {
+      let preskocitPoslech = await driver.findElement(
+        By.id("listenAndChooseSkipBtn"),
+      );
+      await driver.wait(until.elementIsVisible(preskocitPoslech)).click();
+
+      aktualniCviceni = "cekat";
+      console.log("kliknuto: listenAndChoose");
     }
 
     async function transcribe(driver: any) {
@@ -704,6 +744,16 @@ async function prebratLeaderboard() {
               break;
 
             case "chooseWord":
+              await chooseWord(driver);
+              zjistitCviceni();
+              break;
+
+            case "chooseSpelling":
+              await chooseSpelling(driver);
+              zjistitCviceni();
+              break;
+
+            case "listenAndChoose":
               await listenAndChoose(driver);
               zjistitCviceni();
               break;
