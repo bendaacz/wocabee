@@ -85,16 +85,13 @@ async function prebratLeaderboard() {
     let cviceniNaVypracovani: boolean;
 
     async function najitDomaciUkol() {
-      let ukoly = await driver.findElements(
-        By.className("actionBtn btn btn-success btn-block"),
-      );
+      let ukoly = await driver.findElements(By.className("package"));
       let ukolyId: any[] = [];
 
       if (ukoly.length !== 0) {
         for (let i in ukoly) {
           let element = ukoly[i];
-          let cisloCviceni = await ukoly[i].getAttribute("id");
-          cisloCviceni = cisloCviceni.slice(6);
+          let cisloCviceni = await ukoly[i].getAttribute("package_id");
           ukolyId.push({ cisloCviceni, element });
           if (ukoly[i] == ukoly[ukoly.length - 1]) {
             ukolyNaSplneni = ukolyId;
@@ -113,7 +110,6 @@ async function prebratLeaderboard() {
     }
 
     async function otevritCviceni() {
-      console.log(ukolyNaSplneni);
       try {
         await ukolyNaSplneni[0].element.click();
         hotoveCviceni = false;
@@ -167,12 +163,6 @@ async function prebratLeaderboard() {
           let konecPrekladu = res.data
             .replace(/\$|`/g, "")
             .search(`var C_oneAnswerGameNoOfSeconds`);
-          console.log(
-            res.data
-              .replace(/\$|`/g, "")
-              .slice(zacatekPrekladu, konecPrekladu)
-              .split(";")[0],
-          );
           slova = JSON.parse(
             res.data
               .replace(/\$|`/g, "")
