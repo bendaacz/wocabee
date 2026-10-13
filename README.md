@@ -8,7 +8,7 @@ jednoduchý skript pro vzdělávací program [wocabee.app](https://www.wocabee.a
 ## Instalace
 
 - stáhněte si tento projekt [zde jako zip](https://github.com/bendaacz/wocabee/archive/refs/heads/main.zip)
-- pro spuštění skriptu je potřeba mít nainstalovaný [nodejs](https://nodejs.org/en/download)
+- pro spuštění skriptu je potřeba mít nainstalovaný [nodejs](https://nodejs.org/en/download) (vyvíjeno na v24.11.0)
 - uvnitř složky s projektem vytvořte .env soubor, který bude vypadat takhle:
 
 ```
