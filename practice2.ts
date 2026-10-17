@@ -203,31 +203,19 @@ async function translateFallingWord(driver: any) {
   let zadani = await driver.findElement(By.id("tfw_word"));
   zadani = await zadani.getText();
 
-  slova.forEach(async (jsonSlova: any) => {
-    // TODO: pouzit funkci najitOdpovediKZadani()
-    if (jsonSlova.word == zadani) {
-      console.log(
-        `match CZ ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`,
-      );
-      await driver
-        .findElement(By.id("translateFallingWordAnswer"))
-        .sendKeys(jsonSlova.translation);
-      return;
-    } else if (jsonSlova.translation == zadani) {
-      console.log(
-        `match DE ${jsonSlova.word}, ${jsonSlova.translation}, zadani: ${zadani}`,
-      );
-      await driver
-        .findElement(By.id("translateFallingWordAnswer"))
-        .sendKeys(jsonSlova.word);
-      return;
-    }
-  });
-
   try {
+    let vysledek: string = await najitOdpovedKZadani(zadani, []);
+    if (vysledek !== undefined) {
+      pocetSpravnychOdpovedi += 1;
+      console.log(pocetSpravnychOdpovedi);
+    }
+    await driver
+      .findElement(By.id("translateFallingWordAnswer"))
+      .sendKeys(vysledek);
+
     await driver.findElement(By.id("translateFallingWordSubmitBtn")).click();
   } catch (e) {
-    console.log(`translateFallingWord: ${e}`);
+    // console.log(`translateFallingWord: ${e}`); // vime
   }
 
   if (
