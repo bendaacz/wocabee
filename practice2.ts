@@ -89,8 +89,16 @@ async function vytvoritOkno() {
 }
 
 async function najitProcvicovani() {
+  await driver
+    .wait(
+      until.elementLocated(
+        By.className("packagesSeg-btn packagesSeg-practice"),
+      ),
+      10000,
+    )
+    .click();
   let procvicovani = await driver.findElements(
-    By.className("actionBtn btn btn-primary btn-block"),
+    By.className("pkgBtn pkgBtn--practice"),
   );
   let procvicovaniId: any[] = [];
 
