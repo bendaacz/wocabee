@@ -1,6 +1,7 @@
-// ~5600WP/h
+// ~6681/h
 
 import { Builder, Browser, By, Key, until } from "selenium-webdriver";
+import Firefox from "selenium-webdriver/firefox";
 import "dotenv/config";
 import axios from "axios";
 
@@ -85,18 +86,28 @@ function najitOdpovedKZadani(zadani: string, nabidka: string[]) {
 }
 
 async function vytvoritOkno() {
-  return await new Builder().forBrowser(Browser.FIREFOX).build();
+  const options = new Firefox.Options();
+  return await new Builder()
+    .forBrowser(Browser.FIREFOX)
+    .setFirefoxOptions(options.addArguments("--headless"))
+    .setFirefoxOptions(options.setPreference("media.volume_scale", "0"))
+    .build();
 }
-
 async function najitProcvicovani() {
-  await driver
-    .wait(
-      until.elementLocated(
-        By.className("packagesSeg-btn packagesSeg-practice"),
-      ),
-      10000,
-    )
-    .click();
+  try {
+    await driver
+      .wait(
+        until.elementLocated(
+          By.className("packagesSeg-btn packagesSeg-practice"),
+        ),
+        10000,
+      )
+      .click();
+  } catch {
+    console.log(
+      "nenalezena zadna cviceni na procvicovani, nejprve je potreba vypracovat alespon jeden domaci ukol.",
+    );
+  }
   let procvicovani = await driver.findElements(
     By.className("pkgBtn pkgBtn--practice"),
   );
