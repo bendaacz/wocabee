@@ -713,83 +713,115 @@ export async function practiceOnePoint() {
   await zjistitCviceni();
   cviceniOtevreno = true;
 
+  let pocetSpravnychOdpovedi: number = 0;
   while (cviceniOtevreno) {
-    switch (aktualniCviceni) {
-      case "chooseWord":
-        await chooseWord(driver);
-        await zjistitCviceni();
-        break;
+    if (pocetSpravnychOdpovedi <= 20) {
+      switch (aktualniCviceni) {
+        case "chooseWord":
+          await chooseWord(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "chooseSpelling":
-        await chooseSpelling(driver);
-        zjistitCviceni();
-        break;
+        case "chooseSpelling":
+          await chooseSpelling(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          zjistitCviceni();
+          break;
 
-      case "listenAndChoose":
-        await listenAndChoose(driver);
-        zjistitCviceni();
-        break;
+        case "listenAndChoose":
+          await listenAndChoose(driver);
+          zjistitCviceni();
+          break;
 
-      case "transcribe":
-        await transcribe(driver);
-        await zjistitCviceni();
-        break;
+        case "transcribe":
+          await transcribe(driver);
+          await zjistitCviceni();
+          break;
 
-      case "translateWord":
-        await translateWord(driver);
-        await zjistitCviceni();
-        break;
+        case "translateWord":
+          await translateWord(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "findPair":
-        await findPair(driver);
-        await zjistitCviceni();
-        break;
+        case "findPair":
+          await findPair(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "pexeso":
-        await pexeso(driver);
-        await zjistitCviceni();
-        break;
+        case "pexeso":
+          await pexeso(driver);
+          pocetSpravnychOdpovedi += 4;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "oneOutOfMany":
-        await oneOutOfMany(driver);
-        await zjistitCviceni();
-        break;
+        case "oneOutOfMany":
+          await oneOutOfMany(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "completeWord":
-        await completeWord(driver);
-        await zjistitCviceni();
-        break;
+        case "completeWord":
+          await completeWord(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "choosePicture":
-        await choosePicture(driver);
-        await zjistitCviceni();
-        break;
+        case "choosePicture":
+          await choosePicture(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "describePicture":
-        await describePicture(driver);
-        await zjistitCviceni();
-        break;
+        case "describePicture":
+          await describePicture(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          await zjistitCviceni();
+          break;
 
-      case "arrangeWords":
-        await arrangeWords(driver);
-        zjistitCviceni();
-        break;
+        case "arrangeWords":
+          await arrangeWords(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          zjistitCviceni();
+          break;
 
-      case "addMissingWord":
-        await addMissingWord(driver);
-        zjistitCviceni();
-        break;
+        case "addMissingWord":
+          await addMissingWord(driver);
+          pocetSpravnychOdpovedi += 1;
+          console.log(pocetSpravnychOdpovedi);
+          zjistitCviceni();
+          break;
 
-      case "cekat":
-        await driver.sleep(300);
-        await zjistitCviceni();
-        break;
+        case "cekat":
+          await driver.sleep(300);
+          await zjistitCviceni();
+          break;
 
-      default:
-        console.log(`neimplementovano: ${aktualniCviceni}`);
-        aktualniCviceni = "cekat";
-        await zjistitCviceni();
-        break;
+        default:
+          console.log(`neimplementovano: ${aktualniCviceni}`);
+          aktualniCviceni = "cekat";
+          await zjistitCviceni();
+          break;
+      }
+    } else {
+      let zpet = await driver.findElement(By.id("backBtn"));
+      await driver.wait(until.elementIsVisible(zpet)).click();
+      await driver.sleep(3000);
+      await najitProcvicovani();
+      await otevritProcvicovani();
+      pocetSpravnychOdpovedi = 0;
     }
   }
 }

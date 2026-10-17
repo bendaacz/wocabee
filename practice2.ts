@@ -1,3 +1,5 @@
+// ~5600WP/h
+
 import { Builder, Browser, By, Key, until } from "selenium-webdriver";
 import "dotenv/config";
 import axios from "axios";
@@ -54,6 +56,7 @@ let cviceni = [
 let nejnovejsiProcvicovani: { cisloCviceni: number; element: any };
 let aktualniCviceni: string;
 let cviceniOtevreno: boolean = false;
+let pocetSpravnychOdpovedi: number = 0;
 
 function najitOdpovedKZadani(zadani: string, nabidka: string[]) {
   let vysledek: any;
@@ -124,7 +127,9 @@ async function prihlasit(driver: any) {
   } catch (e) {
     console.log(`${e}, existuje .env?`);
   }
-  await driver.wait(until.elementLocated(By.className("flag")), 10000).click();
+  await driver
+    .wait(until.elementLocated(By.className("class-card")), 10000)
+    .click();
 }
 
 async function otevritProcvicovani() {
@@ -243,16 +248,25 @@ export async function practiceTwoPoints() {
   cviceniOtevreno = true;
 
   while (cviceniOtevreno) {
-    switch (aktualniCviceni) {
-      case "translateFallingWord":
-        await translateFallingWord(driver);
-        await driver.sleep(100);
-        await zjistitCviceni();
-        break;
+    if (pocetSpravnychOdpovedi < 20) {
+      switch (aktualniCviceni) {
+        case "translateFallingWord":
+          await translateFallingWord(driver);
+          await driver.sleep(100);
+          await zjistitCviceni();
+          break;
 
-      default:
-        await zjistitCviceni();
-        break;
+        default:
+          await zjistitCviceni();
+          break;
+      }
+    } else {
+      let zpet = await driver.findElement(By.id("backBtn"));
+      await driver.wait(until.elementIsVisible(zpet)).click();
+      await driver.sleep(3000);
+      await najitProcvicovani();
+      await otevritProcvicovani();
+      pocetSpravnychOdpovedi = 0;
     }
   }
 }
