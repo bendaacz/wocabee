@@ -86,13 +86,18 @@ function najitOdpovedKZadani(zadani: string, nabidka: string[]) {
 }
 
 async function vytvoritOkno() {
-  const options = new Firefox.Options();
-  return await new Builder()
-    .forBrowser(Browser.FIREFOX)
-    .setFirefoxOptions(options.addArguments("--headless"))
-    .setFirefoxOptions(options.setPreference("media.volume_scale", "0"))
-    .build();
+  if (process.env.HEADLESS == "1") {
+    const options = new Firefox.Options();
+    return await new Builder()
+      .forBrowser(Browser.FIREFOX)
+      .setFirefoxOptions(options.addArguments("--headless"))
+      .setFirefoxOptions(options.setPreference("media.volume_scale", "0"))
+      .build();
+  } else {
+    return await new Builder().forBrowser(Browser.FIREFOX).build();
+  }
 }
+
 async function najitProcvicovani() {
   try {
     await driver

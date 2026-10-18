@@ -10,7 +10,16 @@ let ukolyDokonceny = false;
 let driver: any;
 
 async function vytvoritOkno() {
-  return await new Builder().forBrowser(Browser.FIREFOX).build();
+  if (process.env.HEADLESS == "1") {
+    const options = new Firefox.Options();
+    return await new Builder()
+      .forBrowser(Browser.FIREFOX)
+      .setFirefoxOptions(options.addArguments("--headless"))
+      .setFirefoxOptions(options.setPreference("media.volume_scale", "0"))
+      .build();
+  } else {
+    return await new Builder().forBrowser(Browser.FIREFOX).build();
+  }
 }
 
 async function prihlasit(driver: any) {
