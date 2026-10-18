@@ -1,4 +1,5 @@
 import { Builder, Browser, By, Key, until } from "selenium-webdriver";
+import Firefox from "selenium-webdriver/firefox";
 import "dotenv/config";
 import axios from "axios";
 
@@ -167,16 +168,15 @@ async function prebratLeaderboard() {
           },
         )
         .then((res: any) => {
-          let zacatekPrekladu =
-            res.data.replace(/\$|`/g, "").search("var locWords") + 15;
-          let konecPrekladu = res.data
-            .replace(/\$|`/g, "")
-            .search(`var C_oneAnswerGameNoOfSeconds`);
+          let zacatekPrekladu = res.data.search(/var \$locWords/m) + 15;
+          let konecPrekladu = res.data.search(
+            /var \$C_oneAnswerGameNoOfSeconds/m,
+          );
+          console.log(
+            res.data.slice(zacatekPrekladu, konecPrekladu).split(";")[0],
+          );
           slova = JSON.parse(
-            res.data
-              .replace(/\$|`/g, "")
-              .slice(zacatekPrekladu, konecPrekladu)
-              .split(";")[0],
+            res.data.slice(zacatekPrekladu, konecPrekladu).split(";")[0],
           );
         });
     }
