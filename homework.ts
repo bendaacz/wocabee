@@ -121,7 +121,9 @@ async function prebratLeaderboard() {
 
     async function otevritCviceni() {
       try {
-        await ukolyNaSplneni[0].element.click();
+        await driver
+          .wait(until.elementIsVisible(ukolyNaSplneni[0].element))
+          .click();
         hotoveCviceni = false;
         choosePicturePocitadlo = 0;
       } catch (e) {
@@ -140,10 +142,11 @@ async function prebratLeaderboard() {
       });
     }
 
+    let classId: string;
     async function sehnatHtml() {
       let aktualniCviceniUrl = await driver.getCurrentUrl();
       console.log(aktualniCviceniUrl);
-      let classId = aktualniCviceniUrl.slice(
+      classId = aktualniCviceniUrl.slice(
         aktualniCviceniUrl.search("class_id=") + 9,
         aktualniCviceniUrl.search("class_id=") + 9 + 6,
       );
@@ -246,7 +249,31 @@ async function prebratLeaderboard() {
         await driver
           .findElement(
             By.xpath(
+              `//button[@class='chooseWordAnswer btn btn-lg btn-primary btn-block pfx-long'][text()="${nabidka[poziceOdpovedi]}"]`, //TODO: chooseWordAnswer je jinde na chooseWord a chooseSpelling
+            ),
+          )
+          .click(); //*[text()="${nabidka[poziceOdpovedi]}"]
+      } catch (e) {
+        console.log(`chooseWord: ${e}`);
+      }
+
+      try {
+        await driver
+          .findElement(
+            By.xpath(
               `//button[@class='btn btn-lg btn-primary btn-block chooseWordAnswer'][text()="${nabidka[poziceOdpovedi]}"]`,
+            ),
+          )
+          .click(); //*[text()="${nabidka[poziceOdpovedi]}"]
+      } catch (e) {
+        console.log(`chooseWord: ${e}`);
+      }
+
+      try {
+        await driver
+          .findElement(
+            By.xpath(
+              `//button[@class='btn btn-lg btn-primary btn-block chooseWordAnswer pfx-long'][text()="${nabidka[poziceOdpovedi]}"]`,
             ),
           )
           .click(); //*[text()="${nabidka[poziceOdpovedi]}"]
@@ -445,6 +472,18 @@ async function prebratLeaderboard() {
           .findElement(
             By.xpath(
               `//div[@class='oneOutOfManyWord btn btn-primary btn-block' and text()="${nabidka[poziceOdpovedi]}"]`,
+            ),
+          )
+          .click();
+      } catch (e) {
+        console.log(`oneOutOfMany: ${e}`);
+      }
+
+      try {
+        await driver
+          .findElement(
+            By.xpath(
+              `//div[@class='oneOutOfManyWord btn btn-primary btn-block pfx-long' and text()="${nabidka[poziceOdpovedi]}"]`,
             ),
           )
           .click();
@@ -829,6 +868,11 @@ async function prebratLeaderboard() {
               }
               let zpet = await driver.findElement(By.id("backBtn"));
               await driver.wait(until.elementIsVisible(zpet)).click();
+              await driver.wait(
+                until.urlIs(
+                  `https://wocabee.app/app/student/class/?class_id=${classId}`,
+                ),
+              );
               break;
 
             case "cekat":
